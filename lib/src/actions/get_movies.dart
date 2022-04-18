@@ -1,5 +1,3 @@
-
-
 import 'package:movies/src/models/movie.dart';
 
 class GetMovies {

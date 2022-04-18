@@ -1,4 +1,3 @@
-
 import 'package:movies/src/actions/get_movies.dart';
 import 'package:movies/src/models/app_state.dart';
 import 'package:movies/src/models/movie.dart';
@@ -20,10 +19,7 @@ AppState _getMovies(AppState state, GetMovies action) {
 }
 
 AppState _getMoviesSuccessful(AppState state, GetMoviesSuccessful action) {
-  return state.copyWith(
-      isLoading: false,
-      page: state.page + 1,
-      movies: <Movie>[...state.movies, ...action.movies]);
+  return state.copyWith(isLoading: false, page: state.page + 1, movies: <Movie>[...state.movies, ...action.movies]);
 }
 
 AppState _getMoviesError(AppState state, GetMoviesError action) {

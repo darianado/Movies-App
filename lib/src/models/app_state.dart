@@ -1,17 +1,14 @@
-
-
-
 import 'package:meta/meta.dart';
 import 'package:movies/src/models/movie.dart';
 
 @immutable
 class AppState {
-   const AppState({
+  const AppState({
     this.movies = const <Movie>[],
     this.isLoading = true,
     this.page = 1,
   });
-  
+
   final List<Movie> movies;
   final bool isLoading;
   final int page;
@@ -27,6 +24,4 @@ class AppState {
       page: page ?? this.page,
     );
   }
-
-
 }
