@@ -1,0 +1,18 @@
+on:
+  push:
+jobs:
+  check-code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: get code
+        uses: actions/checkout@v2
+      - name: install flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+      - name: update packages
+        run: flutter pub get
+      - name: flutter format
+        run: flutter format lib -l 120 --set-exit-if-changed
+      - name: flutter analysis
+        run: flutter analyze
