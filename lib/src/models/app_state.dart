@@ -1,27 +1,15 @@
-import 'package:meta/meta.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:movies/src/models/app_user.dart';
 import 'package:movies/src/models/movie.dart';
 
-@immutable
-class AppState {
-  const AppState({
-    this.movies = const <Movie>[],
-    this.isLoading = true,
-    this.page = 1,
-  });
+part 'app_state.freezed.dart';
 
-  final List<Movie> movies;
-  final bool isLoading;
-  final int page;
-
-  AppState copyWith({
-    List<Movie>? movies,
-    bool? isLoading,
-    int? page,
-  }) {
-    return AppState(
-      movies: movies != null ? List<Movie>.unmodifiable(movies) : this.movies,
-      isLoading: isLoading ?? this.isLoading,
-      page: page ?? this.page,
-    );
-  }
+@freezed
+class AppState with _$AppState {
+  const factory AppState({
+    @Default(<Movie>[]) List<Movie> movies,
+    @Default(true) bool isLoading,
+    @Default(1) int page,
+    AppUser? user,
+  }) = AppState$;
 }

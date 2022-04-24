@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "367885635734",
+    "project_id": "gad-flutter",
+    "storage_bucket": "gad-flutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:367885635734:android:193a0868d133026450b2b7",
+        "android_client_info": {
+          "package_name": "com.example.movies"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "367885635734-2ms5bbl43k1bd5t3vkp56uajbu7aq01b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnEle3Vt1bi8CNxuX4ZeyQm3t03ZPj-fU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "367885635734-2ms5bbl43k1bd5t3vkp56uajbu7aq01b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,14 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:movies/src/actions/get_movies.dart';
+import 'package:movies/src/actions/index.dart';
 import 'package:movies/src/containers/home_page_container.dart';
 import 'package:movies/src/containers/movies_container.dart';
 import 'package:movies/src/models/app_state.dart';
 import 'package:movies/src/models/movie.dart';
 import 'package:redux/redux.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    StoreProvider.of<AppState>(context, listen: false).dispatch(GetMovies(_onResult));
+  }
+
+  void _onResult(AppAction action) {
+    if (action is GetMoviesSuccessful) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("page loaded")));
+    } else if (action is GetMoviesError) {
+      final Object error = action.error;
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Error: $error")));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +43,7 @@ class HomePage extends StatelessWidget {
             actions: <Widget>[
               IconButton(
                 onPressed: () {
-                  store.dispatch(GetMovies());
+                  store.dispatch(GetMovies(_onResult));
                 },
                 icon: const Icon(Icons.add),
               )
