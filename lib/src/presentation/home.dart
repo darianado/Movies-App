@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:movies/src/containers/user_container.dart';
-import 'package:movies/src/models/app_user.dart';
+import 'package:movies/src/models/index.dart';
 import 'package:movies/src/presentation/home_page.dart';
 import 'package:movies/src/presentation/login_page.dart';
 

@@ -1,14 +1,11 @@
 
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:movies/src/actions/index.dart';
-import 'package:movies/src/models/app_user.dart';
-import 'package:movies/src/models/movie.dart';
-
-part 'get_current_user.freezed.dart';
+part of 'index.dart';
 
 @freezed
 class GetCurrentUser with _$GetCurrentUser implements AppAction {
   const factory GetCurrentUser() = GetCurrentUserStart;
+
+  @Implements<UserAction>()
   const factory GetCurrentUser.successful(AppUser? user) = GetCurrentUserSuccessful;
 
   @Implements<ErrorAction>()
