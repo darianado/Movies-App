@@ -1,46 +1,52 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:movies/src/data/auth_base_api.dart';
 import 'package:movies/src/models/index.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const String _favoriteMoviesKey = "user_favorite_movies";
-
-class AuthApi {
-  AuthApi(this._auth, this._preferences);
+class AuthApi implements AuthApiBase {
+  AuthApi(this._auth, this._firestore);
 
   final FirebaseAuth _auth;
-  final SharedPreferences _preferences;
+  final FirebaseFirestore _firestore;
 
+  @override
   Future<AppUser?> getCurrentUser() async {
+    final User? currentUser = _auth.currentUser;
     if (_auth.currentUser != null) {
-      final List<int> favorites = _getCurrentFavorites();
+      final DocumentSnapshot<Map<String, dynamic>> snapshot =
+          await _firestore.doc('users/${_auth.currentUser!.uid}').get();
 
-      return AppUser(
-          email: _auth.currentUser!.email!,
-          uid: _auth.currentUser!.uid,
-          username: _auth.currentUser!.displayName!,
-          favoriteMovies:  favorites,
-          );
-          
+      if (snapshot.exists) {
+        return AppUser.fromJson(snapshot.data()!);
+      } else {
+        final AppUser user = AppUser(
+            uid: currentUser!.uid,
+            email: currentUser.email!,
+            username: currentUser.displayName!);
+
+        await _firestore.doc('users/${user.uid}').set(user.toJson());
+
+        return user;
+      }
     }
     return null;
   }
 
+  @override
   Future<AppUser> login(
       {required String email, required String password}) async {
-    final UserCredential credential = await _auth.signInWithEmailAndPassword(
-        email: email, password: password);
-    final List<int> favorites = _getCurrentFavorites();
+    await _auth.signInWithEmailAndPassword(email: email, password: password);
 
-    return AppUser(
-        uid: credential.user!.uid,
-        email: email,
-        username: credential.user!.displayName!,
-        favoriteMovies: favorites,
-        );
+    final DocumentSnapshot<Map<String, dynamic>> snapshot =
+        await _firestore.doc('users/${_auth.currentUser!.uid}').get();
+
+    return AppUser.fromJson(snapshot.data()!);
   }
 
+  @override
   Future<AppUser> create(
       {required String email,
       required String password,
@@ -48,32 +54,37 @@ class AuthApi {
     final UserCredential credential = await _auth
         .createUserWithEmailAndPassword(email: email, password: password);
     await _auth.currentUser!.updateDisplayName(username);
+    // User x = _auth.currentUser!;
+    // print("bla bla $x");
+    final AppUser user =
+        AppUser(uid: credential.user!.uid, email: email, username: username);
 
-    return AppUser(
-        uid: credential.user!.uid,
-        email: email,
-        username: credential.user!.displayName!);
+    await _firestore.doc('users/${user.uid}').set(user.toJson());
+
+    return user;
   }
 
-  Future<void> updateFavorites(int id, {required bool add}) async {
-    final List<int> ids = _getCurrentFavorites();
-    if (add) {
-      ids.add(id);
-    } else {
-      ids.remove(id);
-    }
+  @override
+  Future<void> updateFavorites(String uid, int id, {required bool add}) async {
+    await _firestore.runTransaction<void>((Transaction transaction) async {
+      final DocumentSnapshot<Map<String, dynamic>> snapshot =
+          await transaction.get(_firestore.doc("users/$uid"));
+      AppUser user = AppUser.fromJson(snapshot.data()!);
 
-    _preferences.setString(_favoriteMoviesKey, jsonEncode(ids));
+      if (add) {
+        user = user.copyWith(favoriteMovies: <int>[...user.favoriteMovies, id]);
+      } else {
+        user = user.copyWith(
+            favoriteMovies: <int>[...user.favoriteMovies..remove(id)]);
+      }
+
+      transaction.set(_firestore.doc('users/$uid'), user.toJson());
+    });
+
   }
 
-  List<int> _getCurrentFavorites() {
-    final String? data = _preferences.getString(_favoriteMoviesKey);
-    List<int> ids;
-    if (data != null) {
-      ids = List<int>.from(jsonDecode(data) as List<dynamic>);
-    } else {
-      ids = <int>[];
-    }
-    return ids;
+  @override
+  Future<void> logout() async {
+    await _auth.signOut();
   }
 }

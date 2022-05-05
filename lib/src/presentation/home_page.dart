@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:movies/src/actions/index.dart';
 import 'package:movies/src/containers/home_page_container.dart';
 import 'package:movies/src/containers/movies_container.dart';
+import 'package:movies/src/containers/pending_container.dart';
 import 'package:movies/src/containers/user_container.dart';
 import 'package:movies/src/models/index.dart';
 import 'package:redux/redux.dart';
@@ -15,11 +16,31 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final ScrollController _controller = ScrollController();
+
   @override
   void initState() {
     super.initState();
     StoreProvider.of<AppState>(context, listen: false)
-        .dispatch(GetMovies(_onResult));
+        .dispatch(GetMovies.start(_onResult));
+    _controller.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    final double extent = _controller.position.maxScrollExtent;
+    final double offset = _controller.offset;
+    final Store<AppState> store = StoreProvider.of<AppState>(context);
+    final bool isLoading = <String>[GetMovies.pendingKey, GetMovies.pendingKeyMore]
+        .any(store.state.pending.contains);
+    if (offset >= extent - MediaQuery.of(context).size.height && !isLoading) {
+      StoreProvider.of<AppState>(context).dispatch(GetMovies.more(_onResult));
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   void _onResult(AppAction action) {
@@ -35,63 +56,76 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final Store<AppState> store = StoreProvider.of<AppState>(context);
+    // final Store<AppState> store = StoreProvider.of<AppState>(context);
     return HomePageContainer(
       builder: (BuildContext context, AppState state) {
         return Scaffold(
           appBar: AppBar(
-            actions: <Widget>[
-              IconButton(
-                onPressed: () {
-                  store.dispatch(GetMovies(_onResult));
-                },
-                icon: const Icon(Icons.add),
-              )
-            ],
+            leading: IconButton(
+              onPressed: () {
+                StoreProvider.of<AppState>(context).dispatch(const Logout());
+              },
+              icon: const Icon(Icons.power_settings_new),
+            ),
             title: Align(
               child: Text('Movies ${state.page}'),
             ),
           ),
-          body: MoviesContainer(
-            builder: (BuildContext context, List<Movie> movies) {
-              if (state.isLoading && movies.isEmpty) {
-                return const Center(child: CircularProgressIndicator());
-              }
+          body: PendingContainer(
+            builder: (BuildContext context, Set<String> pending) {
+              return MoviesContainer(
+                builder: (BuildContext context, List<Movie> movies) {
+                  final isLoading =
+                      state.pending.contains(GetMovies.pendingKey);
+                  final isLoadingMore =
+                      state.pending.contains(GetMovies.pendingKey);
+                  if (isLoading && movies.isEmpty) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
 
-              return UserContainer(
-                builder: (BuildContext context, AppUser? user) {
-                  // ignore: dead_code
-                  return ListView.builder(
-                    itemCount: movies.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final Movie movie = movies[index];
+                  return UserContainer(
+                    builder: (BuildContext context, AppUser? user) {
+                      // ignore: dead_code
+                      return ListView.builder(
+                        controller: _controller,
+                        itemCount: movies.length + (isLoading ? 1 : 0),
+                        itemBuilder: (BuildContext context, int index) {
+                          if (index == movies.length) {
+                            return const CircularProgressIndicator();
+                          }
+                          final Movie movie = movies[index];
 
-                      final bool isFavorite =
-                          user!.favoriteMovies.contains(movie.id);
+                          final bool isFavorite =
+                              user!.favoriteMovies.contains(movie.id);
 
-                      return Column(
-                        children: <Widget>[
-                          Stack(children: <Widget>[
-                            Image.network(movie.poster),
-                            IconButton(
-                                color: Colors.red,
-                                onPressed: () {
-                                  StoreProvider.of<AppState>(context).dispatch(
-                                      UpdateFavorites(movie.id,
-                                          add: !isFavorite));
-                                },
-                                icon: Icon(isFavorite
-                                    ? Icons.favorite
-                                    : Icons.favorite_border))
-                          ]),
-                          Center(
-                            child: Text(movie.title),
-                          ),
-                          Center(
-                            child: Text(movie.genres.join(', ')),
-                          ),
-                          Text('${movie.rating}'),
-                        ],
+                          return Column(
+                            children: <Widget>[
+                              Stack(children: <Widget>[
+                                SizedBox(
+                                  height: 320,
+                                  child: Image.network(movie.poster),
+                                ),
+                                IconButton(
+                                    color: Colors.red,
+                                    onPressed: () {
+                                      StoreProvider.of<AppState>(context)
+                                          .dispatch(UpdateFavorites(movie.id,
+                                              add: !isFavorite));
+                                    },
+                                    icon: Icon(isFavorite
+                                        ? Icons.favorite
+                                        : Icons.favorite_border))
+                              ]),
+                              Center(
+                                child: Text(movie.title),
+                              ),
+                              Center(
+                                child: Text(movie.genres.join(', ')),
+                              ),
+                              Text('${movie.rating}'),
+                            ],
+                          );
+                        },
                       );
                     },
                   );

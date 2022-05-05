@@ -1,5 +1,6 @@
 import 'package:movies/src/actions/index.dart';
 import 'package:movies/src/data/auth_api.dart';
+import 'package:movies/src/data/auth_base_api.dart';
 import 'package:movies/src/data/movie_api.dart';
 import 'package:movies/src/models/index.dart';
 import 'package:redux_epics/redux_epics.dart';
@@ -8,7 +9,7 @@ import 'package:rxdart/rxdart.dart';
 class AuthEpic {
   AuthEpic(this._authApi);
 
-  final AuthApi _authApi;
+  final AuthApiBase _authApi;
 
   Epic<AppState> getEpics() {
     return combineEpics(<Epic<AppState>>[
@@ -16,6 +17,7 @@ class AuthEpic {
       TypedEpic<AppState, GetCurrentUserStart>(_getCurrentUserStart),
       TypedEpic<AppState, CreateUserStart>(_createUserStart),
       TypedEpic<AppState, UpdateFavoritesStart>(_updateFavoritesStart),
+      TypedEpic<AppState, LogoutStart>(_logoutStart),
     ]);
   }
 
@@ -31,7 +33,9 @@ class AuthEpic {
     });
   }
 
-  Stream<AppAction> _getCurrentUserStart(
+
+
+   Stream<AppAction> _getCurrentUserStart(
       Stream<GetCurrentUserStart> actions, EpicStore<AppState> store) {
     return actions.flatMap((GetCurrentUserStart action) {
       return Stream<void>.value(null)
@@ -40,7 +44,7 @@ class AuthEpic {
           .onErrorReturnWith($GetCurrentUser.error);
     });
   }
-
+  
   Stream<AppAction> _createUserStart(
       Stream<CreateUserStart> actions, EpicStore<AppState> store) {
     return actions.flatMap((CreateUserStart action) {
@@ -49,21 +53,37 @@ class AuthEpic {
               email: action.email,
               password: action.password,
               username: action.username))
-          .map<GetCurrentUser>($GetCurrentUser.successful)
-          .onErrorReturnWith($GetCurrentUser.error)
+          .map<CreateUser>($CreateUser.successful)
+          .onErrorReturnWith($CreateUser.error)
           .doOnData(action.onResult);
     });
   }
 
+  
   Stream<AppAction> _updateFavoritesStart(
       Stream<UpdateFavoritesStart> actions, EpicStore<AppState> store) {
     return actions.flatMap((UpdateFavoritesStart action) {
       return Stream<void>.value(null)
-          .asyncMap((_) => _authApi.updateFavorites(action.id, add: action.add))
+          .asyncMap((_) => _authApi.updateFavorites(store.state.user!.uid, action.id, add: action.add))
           .mapTo(const UpdateFavorites.successful())
           .onErrorReturnWith((error, stackTrace) {
-        return UpdateFavorites.error(error, stackTrace, action.id, add: action.add);}
-      );
+        return UpdateFavorites.error(error, stackTrace, action.id,
+            add: action.add);
+      });
     });
   }
+
+  Stream<AppAction> _logoutStart(
+      Stream<LogoutStart> actions, EpicStore<AppState> store) {
+    return actions.flatMap((LogoutStart action) {
+      return Stream<void>.value(null)
+          .asyncMap((_) => _authApi.logout())
+          .mapTo(const Logout.successful())
+          .onErrorReturnWith((error, stackTrace) {
+        return Logout.error(error, stackTrace);
+      });
+    });
+  }
+  
+  
 }

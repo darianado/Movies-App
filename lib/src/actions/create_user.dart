@@ -1,4 +1,3 @@
-
 part of 'index.dart';
 
 @freezed

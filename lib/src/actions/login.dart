@@ -1,17 +1,33 @@
-
 part of 'index.dart';
+
+const String _kGLoginPending = 'Login';
 
 @freezed
 class Login with _$Login implements AppAction {
-  const factory Login({
-    required String email,
+  @Implements<ActionStart>()
+  const factory Login.start({
+    required String email, 
     required String password,
-    required ActionResult onResult,
+    required ActionResult onResult, 
+    @Default(_kGLoginPending) String pendingId,
   }) = LoginStart;
 
-  @Implements<UserAction>()
-  const factory Login.successful(AppUser user) = LoginSuccessful;
+  // const factory GetMovies(ActionResult onResult) = GetMoviesStart;
 
+  @Implements<ActionDone>()
+  const factory Login.successful(
+    AppUser user, {
+      @Default(_kGLoginPending) String pendingId,
+      }) = LoginSuccessful;
+
+  @Implements<ActionDone>()
   @Implements<ErrorAction>()
-  const factory Login.error(Object error, StackTrace stackTrace) = LoginError;
+  const factory Login.error(
+    Object error, 
+    StackTrace stackTrace, {
+      @Default(_kGLoginPending) String pendingId,
+      }) = LoginError;
+
+  static String get pendingKey => _kGLoginPending;
 }
+

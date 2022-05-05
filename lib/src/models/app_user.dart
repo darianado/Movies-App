@@ -9,6 +9,5 @@ class AppUser with _$AppUser {
     @Default(<int>[]) List<int> favoriteMovies,
   }) = AppUser$;
 
-  factory AppUser.fromJson(Map<dynamic, dynamic> json) =>
-      _$AppUserFromJson(Map<String, dynamic>.from(json));
+  factory AppUser.fromJson(Map<dynamic, dynamic> json) => _$AppUserFromJson(Map<String, dynamic>.from(json));
 }

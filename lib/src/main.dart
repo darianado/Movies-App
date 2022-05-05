@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -21,17 +22,17 @@ Future<void> main() async {
 
   final FirebaseApp app = await Firebase.initializeApp();
   final FirebaseAuth auth = FirebaseAuth.instanceFor(app: app);
-
-  final SharedPreferences preferences=  await SharedPreferences.getInstance();
+  final FirebaseFirestore firestore = FirebaseFirestore.instanceFor(app:app); 
+  final SharedPreferences preferences = await SharedPreferences.getInstance();
 
   final Client client = Client();
   final MovieApi movieApi = MovieApi(client);
-  final AuthApi authApi = AuthApi(auth, preferences);
+  final AuthApi authApi = AuthApi(auth, firestore);
   final AppEpic epic = AppEpic(movieApi, authApi);
 
   final Store<AppState> store = Store<AppState>(
     reducer,
-    initialState: const AppState(),
+    initialState:  AppState(),
     middleware: <Middleware<AppState>>[
       EpicMiddleware<AppState>(epic.getEpics()),
     ],

@@ -6,5 +6,6 @@ class UpdateFavorites with _$UpdateFavorites implements AppAction {
   const factory UpdateFavorites.successful() = UpdateFavoritesSuccessful;
 
   @Implements<ErrorAction>()
-  const factory UpdateFavorites.error(Object error, StackTrace stackTrace,int id,{required bool add}) = UpdateFavoritesError;
+  const factory UpdateFavorites.error(Object error, StackTrace stackTrace, int id, {required bool add}) =
+      UpdateFavoritesError;
 }

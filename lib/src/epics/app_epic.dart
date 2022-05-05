@@ -1,4 +1,3 @@
-
 import 'package:movies/src/actions/index.dart';
 import 'package:movies/src/data/auth_api.dart';
 import 'package:movies/src/data/movie_api.dart';
@@ -20,5 +19,4 @@ class AppEpic {
       MovieEpic(_movieApi).getEpics(),
     ]);
   }
-
 }
