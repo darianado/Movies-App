@@ -71,6 +71,8 @@ class _HomePageState extends State<HomePage> {
       builder: (BuildContext context, AppState state) {
         return Scaffold(
           appBar: AppBar(
+            backgroundColor: Color(0xFFD4D1E6),
+            foregroundColor: Color(0xFF231123),
             actions: [
               PopupMenuButton<String>(
                 onSelected: (item) {
@@ -84,21 +86,33 @@ class _HomePageState extends State<HomePage> {
                     value: "",
                     child: Text("All"),
                   ),
-                  const PopupMenuItem<String>(
-                    value: "Comedy",
-                    child: Text("Comedy"),
-                  ),
-                  const PopupMenuItem<String>(
-                    value: "Thriller",
-                    child: Text("Thriller"),
+                   const PopupMenuItem<String>(
+                    value: "Action",
+                    child: Text("Action"),
                   ),
                   const PopupMenuItem<String>(
                     value: "Adventure",
                     child: Text("Adventure"),
                   ),
                   const PopupMenuItem<String>(
-                    value: "Action",
-                    child: Text("Action"),
+                    value: "Animation",
+                    child: Text("Animation"),
+                  ),
+                  const PopupMenuItem<String>(
+                    value: "Comedy",
+                    child: Text("Comedy"),
+                  ),
+                   const PopupMenuItem<String>(
+                    value: "Drama",
+                    child: Text("Drama"),
+                  ),
+                  const PopupMenuItem<String>(
+                    value: "Romance",
+                    child: Text("Romance"),
+                  ),
+                  const PopupMenuItem<String>(
+                    value: "Thriller",
+                    child: Text("Thriller"),
                   ),
                 ],
               ),
@@ -109,7 +123,7 @@ class _HomePageState extends State<HomePage> {
               },
               icon: const Icon(Icons.power_settings_new),
             ),
-            title: Text('Movies ${state.page}'),
+            title: const Text('Movies'),
           ),
           body: PendingContainer(
             builder: (BuildContext context, Set<String> pending) {
@@ -149,10 +163,14 @@ class _HomePageState extends State<HomePage> {
                                 Stack(children: <Widget>[
                                   SizedBox(
                                     height: 320,
-                                    child: Image.network(movie.poster),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top:33.0),
+                                      child: Image.network(movie.poster),
+                                    ),
                                   ),
                                   IconButton(
-                                      color: Colors.red,
+                                      iconSize: 50,
+                                      color:Color(0xFF82204A),
                                       onPressed: () {
                                         StoreProvider.of<AppState>(context)
                                             .dispatch(UpdateFavorites(movie.id,
@@ -163,12 +181,11 @@ class _HomePageState extends State<HomePage> {
                                           : Icons.favorite_border))
                                 ]),
                                 Center(
-                                  child: Text(movie.title),
+                                  child: Text(movie.title,style:TextStyle(fontSize: 20,),),
                                 ),
                                 Center(
                                   child: Text(movie.genres.join(', ')),
                                 ),
-                                Text('${movie.rating}'),
                               ],
                             ),
                           );

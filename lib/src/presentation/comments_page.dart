@@ -41,6 +41,8 @@ class _CommentsPageState extends State<CommentsPage> {
       builder: (BuildContext context, Movie movie) {
         return Scaffold(
           appBar: AppBar(
+            backgroundColor: Color(0xFFD4D1E6),
+            foregroundColor: Color(0xFF231123),
             title: Text(movie.title),
           ),
           body: UsersContainer(
@@ -71,7 +73,7 @@ class _CommentsPageState extends State<CommentsPage> {
                                   children: [
                                     Row(
                                       children: [
-                                        Icon(Icons.star),
+                                        Icon(Icons.star,color: Color(0xFFE8DB7D),),
                                         Text(
                                           movie.rating.toString(),
                                           style: TextStyle(fontSize: 30),),
@@ -124,28 +126,30 @@ class _CommentsPageState extends State<CommentsPage> {
                               child: Text("No comments yet!"),
                             ),
                           ),
-                        Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: TextFormField(
-                            controller: _controller,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                               labelText: 'Add a comment',
-                              contentPadding: EdgeInsets.all(8),
-                              suffix: IconButton(
-                                icon: const Icon(
-                                  Icons.send,
+                        
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextFormField(
+                              controller: _controller,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                 labelText: 'Add a comment',
+                                contentPadding: EdgeInsets.all(8),
+                                suffix: IconButton(
+                                  icon: const Icon(
+                                    Icons.send,
+                                  ),
+                                  onPressed: () {
+                                    if (_controller.text.isEmpty) return;
+                                    StoreProvider.of<AppState>(context).dispatch(
+                                        CreateComment.start(_controller.text));
+                                    _controller.clear();
+                                  },
                                 ),
-                                onPressed: () {
-                                  if (_controller.text.isEmpty) return;
-                                  StoreProvider.of<AppState>(context).dispatch(
-                                      CreateComment.start(_controller.text));
-                                  _controller.clear();
-                                },
                               ),
                             ),
                           ),
-                        ),
+                        
                       ]),
                 );
               },

@@ -50,6 +50,7 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFD4D1E6),
       body: Form(
         child: Builder(
           builder: (BuildContext context) {
@@ -60,11 +61,20 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
+                      Image.asset('assets/images/movie_logo.png',height: 100,width: 100,),
+                      SizedBox(height: 50,),
                       TextFormField(
                         controller: _email,
                         keyboardType: TextInputType.emailAddress,
                         textInputAction: TextInputAction.next,
-                        decoration: const InputDecoration(hintText: "email"),
+                        decoration: const InputDecoration(
+                            hintText: "Email",
+                            border:InputBorder.none,
+                            focusedBorder:UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                            icon: Icon(Icons.email, color: Color(0xFF231123)),
+                          ),
                         autofocus: true,
                         validator: (String? value) {
                           if (value == null || value.isEmpty) {
@@ -82,7 +92,14 @@ class _SignUpPageState extends State<SignUpPage> {
                         controller: _password,
                         focusNode: _passwordNode,
                         textInputAction: TextInputAction.next,
-                        decoration: const InputDecoration(hintText: "password"),
+                        decoration:const InputDecoration(
+                            hintText: "Password",
+                            border:InputBorder.none,
+                            focusedBorder:UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                            icon: Icon(Icons.lock,color: Color(0xFF231123)),
+                          ),
                         keyboardType: TextInputType.visiblePassword,
                         obscureText: true,
                         validator: (String? value) {
@@ -102,7 +119,14 @@ class _SignUpPageState extends State<SignUpPage> {
                         focusNode: _usernameNode,
                         textInputAction: TextInputAction.done,
                         keyboardType: TextInputType.name,
-                        decoration: const InputDecoration(hintText: "username"),
+                        decoration: const InputDecoration(
+                            hintText: "Username",
+                            border:InputBorder.none,
+                            focusedBorder:UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                            icon: Icon(Icons.person, color: Color(0xFF231123)),
+                          ),
                         validator: (String? value) {
                           if (value == null || value.isEmpty) {
                             return " pls enter smthing";
@@ -113,17 +137,32 @@ class _SignUpPageState extends State<SignUpPage> {
                           _onNext(context);
                         },
                       ),
-                      TextButton(
+                      SizedBox(height: 20,),
+                      ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor:  MaterialStateProperty.all(Color(0xFF231123)),
+                              minimumSize: MaterialStateProperty.all(const Size(200, 40)),
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                              ),),),
                           onPressed: () => _onNext(context),
                           child: const Text(
                             "Signup",
-                            style: TextStyle(color: Colors.blue),
+                            style:TextStyle(fontSize: 18,),
                           )),
-                      TextButton(
+                      ElevatedButton(
+                          style:ButtonStyle(
+                              backgroundColor:  MaterialStateProperty.all(Color(0xFF82204A)),
+                              minimumSize: MaterialStateProperty.all(const Size(200, 40)),
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                              ),),),
                           onPressed: () => {Navigator.pop(context)},
                           child: const Text(
                             "Login",
-                            style: TextStyle(color: Colors.blue),
+                            style:TextStyle(fontSize: 18,),
                           ))
                     ],
                   ),

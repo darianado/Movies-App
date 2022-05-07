@@ -53,6 +53,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFD4D1E6),
       body: Form(
         child: PendingContainer(
             builder: (BuildContext context, Set<String> pending) {
@@ -68,12 +69,21 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
+                  Image.asset('assets/images/movie_logo.png',height: 100,width: 100,),
+                  SizedBox(height: 50,),
                   TextFormField(
                     controller: _email,
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
                     autofocus: true,
-                    decoration: const InputDecoration(hintText: "email"),
+                    decoration: const InputDecoration(
+                      hintText: "Email",
+                      border:InputBorder.none,
+                      focusedBorder:UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      icon: Icon(Icons.email, color: Color(0xFF231123)),
+                    ),
                     validator: (String? value) {
                       if (value == null || value.isEmpty) {
                         return " pls enter smthing";
@@ -91,7 +101,14 @@ class _LoginPageState extends State<LoginPage> {
                     focusNode: _passwordNode,
                     textInputAction: TextInputAction.done,
                     keyboardType: TextInputType.visiblePassword,
-                    decoration: const InputDecoration(hintText: "password"),
+                    decoration: const InputDecoration(
+                      hintText: "Password",
+                      border:InputBorder.none,
+                      focusedBorder:UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      icon: Icon(Icons.lock,color: Color(0xFF231123),),
+                      ),
                     obscureText: true,
                     validator: (String? value) {
                       if (value == null || value.isEmpty) {
@@ -105,19 +122,34 @@ class _LoginPageState extends State<LoginPage> {
                       _onNext(context);
                     },
                   ),
-                  TextButton(
+                  SizedBox(height: 20,),
+                   ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor:  MaterialStateProperty.all(Color(0xFF231123)),
+                        minimumSize: MaterialStateProperty.all(const Size(200, 40)),
+                        shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                        ),),),
                       onPressed: () => _onNext(context),
                       child: const Text(
                         "Login",
-                        style: TextStyle(color: Colors.blue),
-                      )),
-                  TextButton(
+                        style:TextStyle(fontSize: 18,),
+                      ),),
+                  ElevatedButton(
+                    style:ButtonStyle(
+                        backgroundColor:  MaterialStateProperty.all(Color(0xFF82204A)),
+                        minimumSize: MaterialStateProperty.all(const Size(200, 40)),
+                        shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                        ),),),
                       onPressed: () =>
                           {Navigator.pushNamed(context, '/signUp')},
                       child: const Text(
                         "Signup",
-                        style: TextStyle(color: Colors.blue),
-                      ))
+                         style:TextStyle(fontSize: 18,),
+                      ),),
                 ],
               ),
             ),
