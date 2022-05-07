@@ -8,7 +8,9 @@ import 'package:movies/src/models/index.dart';
 import 'package:movies/src/data/auth_api.dart';
 import 'package:movies/src/data/movie_api.dart';
 import 'package:movies/src/epics/app_epic.dart';
+import 'package:movies/src/presentation/comments_page.dart';
 import 'package:movies/src/presentation/home.dart';
+import 'package:movies/src/presentation/home_page.dart';
 import 'package:movies/src/presentation/login_page.dart';
 import 'package:movies/src/presentation/sign_up_page.dart';
 import 'package:movies/src/reducer/reducer.dart';
@@ -26,13 +28,13 @@ Future<void> main() async {
   final SharedPreferences preferences = await SharedPreferences.getInstance();
 
   final Client client = Client();
-  final MovieApi movieApi = MovieApi(client);
+  final MovieApi movieApi = MovieApi(client, firestore);
   final AuthApi authApi = AuthApi(auth, firestore);
   final AppEpic epic = AppEpic(movieApi, authApi);
 
   final Store<AppState> store = Store<AppState>(
     reducer,
-    initialState:  AppState(),
+    initialState:  const AppState(),
     middleware: <Middleware<AppState>>[
       EpicMiddleware<AppState>(epic.getEpics()),
     ],
@@ -54,8 +56,10 @@ class App extends StatelessWidget {
         title: 'Movie App',
         routes: <String, WidgetBuilder>{
           '/': (BuildContext context) => const Home(),
+          '/homepage': (BuildContext context) => const HomePage(),
           '/signUp': (BuildContext context) => const SignUpPage(),
-          'login': (BuildContext context) => const LoginPage(),
+          '/login': (BuildContext context) => const LoginPage(),
+          '/comments': (BuildContext context) => const CommentsPage(),
         },
       ),
     );

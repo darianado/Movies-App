@@ -5,3 +5,4 @@ part "index.freezed.dart";
 part "app_state.dart";
 part "app_user.dart";
 part "movie.dart";
+part "comment.dart";

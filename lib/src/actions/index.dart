@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:movies/src/models/index.dart';
 
@@ -9,6 +9,10 @@ part 'index.freezed.dart';
 part 'login.dart';
 part 'update_favorites.dart';
 part 'logout.dart';
+part 'listen_for_comments.dart';
+part 'set.dart';
+part 'create_comment.dart';
+part 'get_user.dart';
 
 abstract class AppAction {}
 

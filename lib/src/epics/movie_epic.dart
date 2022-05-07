@@ -13,6 +13,8 @@ class MovieEpic {
   Epic<AppState> getEpics() {
     return combineEpics(<Epic<AppState>>[
       _getMovies,
+      _listenForComments,
+      TypedEpic<AppState, CreateCommentStart>(_createCommentStart),
     ]);
   }
 
@@ -23,7 +25,7 @@ class MovieEpic {
             action is GetMoviesStart || action is GetMoviesMore)
         .flatMap((dynamic action) {
       String pendingId = '';
-      ActionResult onResult=(_){};
+      ActionResult onResult = (_) {};
       if (action is GetMoviesStart) {
         pendingId = action.pendingId;
         onResult = action.onResult;
@@ -39,6 +41,42 @@ class MovieEpic {
       }).onErrorReturnWith((Object error, stackTrace) {
         return GetMovies.error(error, stackTrace, pendingId);
       }).doOnData(onResult);
+    });
+  }
+
+  Stream<AppAction> _listenForComments(
+      Stream<dynamic> actions, EpicStore<AppState> store) {
+    return actions
+        .whereType<ListenForCommentsStart>()
+        .flatMap((ListenForCommentsStart action) {
+      return _movieApi
+          .listenForComments(action.movieId)
+          .expand((List<Comment> comments) {
+        return <AppAction>[
+          ListenForComments.event(comments),
+          ...comments
+            .where((comment) => store.state.users[comment.uid]==null)
+            .map((comment) => GetUser(comment.uid))
+            .toSet()
+          ];
+      }).takeUntil<dynamic>(actions.where((dynamic event) {
+        return event is ListenForCommentsDone &&
+            event.movieId == action.movieId;
+      })).onErrorReturnWith($ListenForComments.error);
+    });
+  }
+
+  Stream<AppAction> _createCommentStart(
+      Stream<CreateCommentStart> actions, EpicStore<AppState> store) {
+    return actions.flatMap((action) {
+      return Stream<void>.value(null)
+          .asyncMap((_) => _movieApi.createComment(
+                uid: store.state.user!.uid,
+                movieId: store.state.selectedMovieId!,
+                text: action.text,
+              ))
+          .mapTo(const CreateComment.successful())
+          .onErrorReturnWith($CreateComment.error);
     });
   }
 }

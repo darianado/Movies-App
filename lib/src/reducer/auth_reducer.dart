@@ -7,6 +7,7 @@ Reducer<AppState> authReducer = combineReducers<AppState>(<Reducer<AppState>>[
   TypedReducer<AppState, UpdateFavoritesStart>(_updateFavoritesStart),
   TypedReducer<AppState, UpdateFavoritesError>(_updateFavoritesError),
   TypedReducer<AppState, LogoutSuccessful>(_logoutSuccessful),
+  TypedReducer<AppState, GetUserSuccessful>(_getUserSuccessful),
 ]);
 
 AppState _userAction(AppState state, UserAction action) {
@@ -41,4 +42,11 @@ AppState _updateFavoritesError(AppState state, UpdateFavoritesError action) {
 
 AppState _logoutSuccessful(AppState state, LogoutSuccessful action) {
   return state.copyWith(user: null);
+}
+
+AppState _getUserSuccessful(AppState state, GetUserSuccessful action) {
+  return state.copyWith(users: <String, AppUser>{
+    ...state.users,
+    action.user.uid: action.user,
+  });
 }

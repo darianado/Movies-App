@@ -30,8 +30,10 @@ class _HomePageState extends State<HomePage> {
     final double extent = _controller.position.maxScrollExtent;
     final double offset = _controller.offset;
     final Store<AppState> store = StoreProvider.of<AppState>(context);
-    final bool isLoading = <String>[GetMovies.pendingKey, GetMovies.pendingKeyMore]
-        .any(store.state.pending.contains);
+    final bool isLoading = <String>[
+      GetMovies.pendingKey,
+      GetMovies.pendingKeyMore
+    ].any(store.state.pending.contains);
     if (offset >= extent - MediaQuery.of(context).size.height && !isLoading) {
       StoreProvider.of<AppState>(context).dispatch(GetMovies.more(_onResult));
     }
@@ -98,32 +100,39 @@ class _HomePageState extends State<HomePage> {
                           final bool isFavorite =
                               user!.favoriteMovies.contains(movie.id);
 
-                          return Column(
-                            children: <Widget>[
-                              Stack(children: <Widget>[
-                                SizedBox(
-                                  height: 320,
-                                  child: Image.network(movie.poster),
+                          return GestureDetector(
+                            onTap: () {
+                              StoreProvider.of<AppState>(context)
+                                  .dispatch(SetSelectedMovieId(movie.id));
+                              Navigator.pushNamed(context, '/comments');
+                            },
+                            child: Column(
+                              children: <Widget>[
+                                Stack(children: <Widget>[
+                                  SizedBox(
+                                    height: 320,
+                                    child: Image.network(movie.poster),
+                                  ),
+                                  IconButton(
+                                      color: Colors.red,
+                                      onPressed: () {
+                                        StoreProvider.of<AppState>(context)
+                                            .dispatch(UpdateFavorites(movie.id,
+                                                add: !isFavorite));
+                                      },
+                                      icon: Icon(isFavorite
+                                          ? Icons.favorite
+                                          : Icons.favorite_border))
+                                ]),
+                                Center(
+                                  child: Text(movie.title),
                                 ),
-                                IconButton(
-                                    color: Colors.red,
-                                    onPressed: () {
-                                      StoreProvider.of<AppState>(context)
-                                          .dispatch(UpdateFavorites(movie.id,
-                                              add: !isFavorite));
-                                    },
-                                    icon: Icon(isFavorite
-                                        ? Icons.favorite
-                                        : Icons.favorite_border))
-                              ]),
-                              Center(
-                                child: Text(movie.title),
-                              ),
-                              Center(
-                                child: Text(movie.genres.join(', ')),
-                              ),
-                              Text('${movie.rating}'),
-                            ],
+                                Center(
+                                  child: Text(movie.genres.join(', ')),
+                                ),
+                                Text('${movie.rating}'),
+                              ],
+                            ),
                           );
                         },
                       );

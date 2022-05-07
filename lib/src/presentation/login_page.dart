@@ -4,6 +4,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:movies/src/actions/index.dart';
 import 'package:movies/src/containers/pending_container.dart';
 import 'package:movies/src/models/index.dart';
+import 'package:movies/src/presentation/home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -18,20 +19,21 @@ class _LoginPageState extends State<LoginPage> {
   final FocusNode _passwordNode = FocusNode();
 
   void _onNext(BuildContext context) {
-    print("blaaaa");
-    User? user = FirebaseAuth.instance.currentUser;
-    print("$user");
+    print("bbbbbb ");
+    
+    
     if (!Form.of(context)!.validate()) {
       return;
     }
-  print("$user");
+
     StoreProvider.of<AppState>(context).dispatch(Login.start(
         email: _email.text,
         password: _password.text,
         onResult: (AppAction action) {
           _onResult(action);
         }));
-    // print("$user");
+        User? user = FirebaseAuth.instance.currentUser;
+        print("$user");
   }
 
   void _onResult(AppAction action) {
@@ -44,10 +46,9 @@ class _LoginPageState extends State<LoginPage> {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text("$error")));
       }
-    } else if (action is LoginSuccessful) {
-      Navigator.pushNamedAndRemoveUntil(context, "/", (_) => false);
+    } else print("da ba");
     }
-  }
+  
 
   @override
   Widget build(BuildContext context) {

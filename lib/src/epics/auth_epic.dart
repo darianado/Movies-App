@@ -18,6 +18,7 @@ class AuthEpic {
       TypedEpic<AppState, CreateUserStart>(_createUserStart),
       TypedEpic<AppState, UpdateFavoritesStart>(_updateFavoritesStart),
       TypedEpic<AppState, LogoutStart>(_logoutStart),
+      TypedEpic<AppState, GetUserStart>(_getUserStart),
     ]);
   }
 
@@ -82,6 +83,16 @@ class AuthEpic {
           .onErrorReturnWith((error, stackTrace) {
         return Logout.error(error, stackTrace);
       });
+    });
+  }
+
+   Stream<AppAction> _getUserStart(
+      Stream<GetUserStart> actions, EpicStore<AppState> store) {
+    return actions.flatMap((GetUserStart action) {
+      return Stream<void>.value(null)
+          .asyncMap((_) => _authApi.getUser(action.uid))
+          .map<GetUser>($GetUser.successful)
+          .onErrorReturnWith($GetUser.error);
     });
   }
   

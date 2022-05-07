@@ -12,21 +12,20 @@ class Login with _$Login implements AppAction {
     @Default(_kGLoginPending) String pendingId,
   }) = LoginStart;
 
-  // const factory GetMovies(ActionResult onResult) = GetMoviesStart;
-
+  @Implements<UserAction>()
   @Implements<ActionDone>()
   const factory Login.successful(
-    AppUser user, {
+    AppUser user, [
       @Default(_kGLoginPending) String pendingId,
-      }) = LoginSuccessful;
+      ]) = LoginSuccessful;
 
   @Implements<ActionDone>()
   @Implements<ErrorAction>()
   const factory Login.error(
     Object error, 
-    StackTrace stackTrace, {
+    StackTrace stackTrace, [
       @Default(_kGLoginPending) String pendingId,
-      }) = LoginError;
+      ]) = LoginError;
 
   static String get pendingKey => _kGLoginPending;
 }
