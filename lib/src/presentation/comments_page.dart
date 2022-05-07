@@ -51,6 +51,55 @@ class _CommentsPageState extends State<CommentsPage> {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SizedBox(
+                                      height: 220,
+                                      child: Image.network(movie.poster),
+                                    ),
+                              ),
+                              
+                              Padding(
+                                padding: const EdgeInsets.only(top: 10.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  // mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(Icons.star),
+                                        Text(
+                                          movie.rating.toString(),
+                                          style: TextStyle(fontSize: 30),),
+                                      ],
+                                    ),
+                                    
+                                    SizedBox(height: 10,),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width * 0.56,
+                                      height: 220,
+                                      child: SingleChildScrollView(
+                                        child: Text(movie.summary,style: TextStyle(fontSize: 15),),
+                                        ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              "Comments:",
+                              style: TextStyle(fontSize: 25, fontStyle: FontStyle.italic),),
+                          ),),
                         if (comments.isNotEmpty)
                           Expanded(
                             child: ListView.builder(
@@ -70,23 +119,30 @@ class _CommentsPageState extends State<CommentsPage> {
                             ),
                           )
                         else
-                          const Center(
-                            child: Text("No comments yet!"),
+                          const Expanded(
+                            child: Center(
+                              child: Text("No comments yet!"),
+                            ),
                           ),
-                        TextField(
-                          controller: _controller,
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.all(8),
-                            suffix: IconButton(
-                              icon: const Icon(
-                                Icons.send,
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: TextFormField(
+                            controller: _controller,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                               labelText: 'Add a comment',
+                              contentPadding: EdgeInsets.all(8),
+                              suffix: IconButton(
+                                icon: const Icon(
+                                  Icons.send,
+                                ),
+                                onPressed: () {
+                                  if (_controller.text.isEmpty) return;
+                                  StoreProvider.of<AppState>(context).dispatch(
+                                      CreateComment.start(_controller.text));
+                                  _controller.clear();
+                                },
                               ),
-                              onPressed: () {
-                                if (_controller.text.isEmpty) return;
-                                StoreProvider.of<AppState>(context).dispatch(
-                                    CreateComment.start(_controller.text));
-                                _controller.clear();
-                              },
                             ),
                           ),
                         ),

@@ -8,6 +8,7 @@ class Movie with _$Movie {
     required int year,
     required double rating,
     required List<String> genres,
+    required String summary,
     @JsonKey(name: 'medium_cover_image') required String poster,
   }) = Movie$;
 
