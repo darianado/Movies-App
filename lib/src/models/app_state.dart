@@ -9,6 +9,9 @@ class AppState with _$AppState {
     @Default(<String>{}) Set<String> pending,
     @Default(<Comment>[]) List<Comment> comments,
     int? selectedMovieId,
-     @Default(<String,AppUser>{}) Map<String, AppUser> users,
+    @Default(<String, AppUser>{}) Map<String, AppUser> users,
   }) = AppState$;
+
+  factory AppState.fromJson(Map<dynamic, dynamic> json) =>
+      _$AppStateFromJson(Map<String, dynamic>.from(json));
 }
