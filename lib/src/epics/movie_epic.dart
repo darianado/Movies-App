@@ -50,17 +50,19 @@ class MovieEpic {
       String pendingId = '';
       ActionResult onResult = (_) {};
       int page = 0;
+      String genre = '';
       if (action is GetMoviesStart) {
         pendingId = action.pendingId;
         onResult = action.onResult;
+        genre = action.genre.toString();
       } else if (action is GetMoviesMore) {
         pendingId = action.pendingId;
         onResult = action.onResult;
+        genre = action.genre.toString();
         page = store.state.page;
       }
       return Stream<void>.value(null).asyncMap((_) {
-        // ignore: avoid_dynamic_calls
-        return _movieApi.getMovies(page, action.genre.toString());
+        return _movieApi.getMovies(page, genre);
       }).map<GetMovies>((List<Movie> movies) {
         return GetMovies.successful(movies, pendingId);
       }).onErrorReturnWith((Object error, StackTrace stackTrace) {

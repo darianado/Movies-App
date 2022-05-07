@@ -75,8 +75,7 @@ class _HomePageState extends State<HomePage> {
                   genre = item;
                   StoreProvider.of<AppState>(context, listen: false).dispatch(GetMovies.start(genre, _onResult));
                 },
-                // ignore: always_specify_types
-                itemBuilder: (BuildContext context) => [
+                itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
                   const PopupMenuItem<String>(
                     value: '',
                     child: Text('All'),
@@ -133,7 +132,6 @@ class _HomePageState extends State<HomePage> {
                   // print(movies[0]);
                   return UserContainer(
                     builder: (BuildContext context, AppUser? user) {
-                      // ignore: dead_code
                       return ListView.builder(
                         controller: _controller,
                         itemCount: movies.length + (isLoading ? 1 : 0),

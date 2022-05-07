@@ -163,8 +163,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                           ),
                         ),
-                        // ignore: always_specify_types
-                        onPressed: () => {Navigator.pop(context)},
+                        onPressed: () => Navigator.pop(context),
                         child: const Text(
                           'Login',
                           style: TextStyle(

@@ -150,8 +150,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                         ),
-                        // ignore: always_specify_types
-                        onPressed: () => {Navigator.pushNamed(context, '/signUp')},
+                        onPressed: () => Navigator.pushNamed(context, '/signUp'),
                         child: const Text(
                           'SignUp',
                           style: TextStyle(
