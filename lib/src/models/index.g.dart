@@ -11,7 +11,7 @@ _$AppState$ _$$AppState$FromJson(Map<String, dynamic> json) => _$AppState$(
               ?.map((e) => Movie.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const <Movie>[],
-      page: json['page'] as int? ?? 1,
+      page: json['page'] as int? ?? 0,
       user: json['user'] == null
           ? null
           : AppUser.fromJson(json['user'] as Map<String, dynamic>),

@@ -13,7 +13,6 @@ part 'listen_for_comments.dart';
 part 'set.dart';
 part 'create_comment.dart';
 part 'get_user.dart';
-part 'get_movies_genre.dart';
 
 abstract class AppAction {}
 

@@ -7,12 +7,14 @@ const String _kGetMoviesMorePending = 'GetMoviesMore';
 class GetMovies with _$GetMovies implements AppAction {
   @Implements<ActionStart>()
   const factory GetMovies.start(
+    String? genre, 
     ActionResult onResult, {
     @Default(_kGetMoviesPending) String pendingId,
   }) = GetMoviesStart;
 
    @Implements<ActionStart>()
   const factory GetMovies.more(
+    String? genre, 
     ActionResult onResult, {
     @Default(_kGetMoviesMorePending) String pendingId,
   }) = GetMoviesMore;

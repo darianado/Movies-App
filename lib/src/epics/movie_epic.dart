@@ -13,43 +13,36 @@ class MovieEpic {
   Epic<AppState> getEpics() {
     return combineEpics(<Epic<AppState>>[
       _getMovies,
-      _getMoviesGenre,
       _listenForComments,
       TypedEpic<AppState, CreateCommentStart>(_createCommentStart),
     ]);
   }
 
+  // Stream<AppAction> _getMoviesGenre(
+  //     Stream<dynamic> actions, EpicStore<AppState> store) {
+  //   return actions
+  //       .where((dynamic action) =>
+  //           action is GetMoviesGenreStart || action is GetMoviesGenreMore)
+  //       .flatMap((dynamic action) {
+  //     String pendingId = '';
+  //     ActionResult onResult = (_) {};
+  //     if (action is GetMoviesGenreStart) {
+  //       pendingId = action.pendingId;
+  //       onResult = action.onResult;
+  //     } else if (action is GetMoviesGenreMore) {
+  //       pendingId = action.pendingId;
+  //       onResult = action.onResult;
+  //     }
 
-  Stream<AppAction> _getMoviesGenre(
-      Stream<dynamic> actions, EpicStore<AppState> store) {
-    return actions
-        .where((dynamic action) =>
-            action is GetMoviesGenreStart || action is GetMoviesGenreMore)
-        .flatMap((dynamic action) {
-      String pendingId = '';
-      ActionResult onResult = (_) {};
-      if (action is GetMoviesGenreStart) {
-        pendingId = action.pendingId;
-        onResult = action.onResult;
-      } else if (action is GetMoviesGenreMore) {
-        pendingId = action.pendingId;
-        onResult = action.onResult;
-      }
-
-      return Stream<void>.value(null)
-          .asyncMap((_) => _movieApi.getMoviesGenre(store.state.page, action.genre))
-          .map<GetMoviesGenre>((List<Movie> movies) {
-        return GetMoviesGenre.successful(movies, pendingId);
-      }).onErrorReturnWith((Object error, stackTrace) {
-        return GetMoviesGenre.error(error, stackTrace, pendingId);
-      }).doOnData(onResult);
-    });
-  }
-
-
-
-
-
+  //     return Stream<void>.value(null)
+  //         .asyncMap((_) => _movieApi.getMoviesGenre(store.state.page, action.genre))
+  //         .map<GetMoviesGenre>((List<Movie> movies) {
+  //       return GetMoviesGenre.successful(movies, pendingId);
+  //     }).onErrorReturnWith((Object error, stackTrace) {
+  //       return GetMoviesGenre.error(error, stackTrace, pendingId);
+  //     }).doOnData(onResult);
+  //   });
+  // }
 
   Stream<AppAction> _getMovies(
       Stream<dynamic> actions, EpicStore<AppState> store) {
@@ -59,16 +52,17 @@ class MovieEpic {
         .flatMap((dynamic action) {
       String pendingId = '';
       ActionResult onResult = (_) {};
+      int page = 0;
       if (action is GetMoviesStart) {
         pendingId = action.pendingId;
         onResult = action.onResult;
       } else if (action is GetMoviesMore) {
         pendingId = action.pendingId;
         onResult = action.onResult;
+        page = store.state.page ;
       }
-
       return Stream<void>.value(null)
-          .asyncMap((_) => _movieApi.getMovies(store.state.page))
+          .asyncMap((_) => _movieApi.getMovies(page, action.genre))
           .map<GetMovies>((List<Movie> movies) {
         return GetMovies.successful(movies, pendingId);
       }).onErrorReturnWith((Object error, stackTrace) {
@@ -88,10 +82,10 @@ class MovieEpic {
         return <AppAction>[
           ListenForComments.event(comments),
           ...comments
-            .where((comment) => store.state.users[comment.uid]==null)
-            .map((comment) => GetUser(comment.uid))
-            .toSet()
-          ];
+              .where((comment) => store.state.users[comment.uid] == null)
+              .map((comment) => GetUser(comment.uid))
+              .toSet()
+        ];
       }).takeUntil<dynamic>(actions.where((dynamic event) {
         return event is ListenForCommentsDone &&
             event.movieId == action.movieId;

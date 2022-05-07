@@ -4,7 +4,7 @@ part of 'index.dart';
 class AppState with _$AppState {
   const factory AppState({
     @Default(<Movie>[]) List<Movie> movies,
-    @Default(1) int page,
+    @Default(0) int page,
     AppUser? user,
     @Default(<String>{}) Set<String> pending,
     @Default(<Comment>[]) List<Comment> comments,

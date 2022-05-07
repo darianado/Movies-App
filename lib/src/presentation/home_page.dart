@@ -18,12 +18,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final ScrollController _controller = ScrollController();
+  String genre = "";
 
   @override
   void initState() {
     super.initState();
     StoreProvider.of<AppState>(context, listen: false)
-        .dispatch(GetMovies.start(_onResult));
+        .dispatch(GetMovies.start(genre, _onResult));
     _controller.addListener(_onScroll);
   }
 
@@ -34,11 +35,10 @@ class _HomePageState extends State<HomePage> {
     final bool isLoading = <String>[
       GetMovies.pendingKey,
       GetMovies.pendingKeyMore,
-      GetMoviesGenre.pendingKey,
-      GetMoviesGenre.pendingKeyMore
     ].any(store.state.pending.contains);
     if (offset >= extent - MediaQuery.of(context).size.height && !isLoading) {
-      StoreProvider.of<AppState>(context).dispatch(GetMovies.more(_onResult));
+      StoreProvider.of<AppState>(context)
+          .dispatch(GetMovies.more(genre, _onResult));
     }
   }
 
@@ -59,10 +59,10 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void onSelected(context, item) {
-    StoreProvider.of<AppState>(context, listen: false)
-        .dispatch(GetMoviesGenre.start(item.toString(), _onResult));
-  }
+  // void onSelected(context, item) {
+  //   StoreProvider.of<AppState>(context, listen: false)
+  //       .dispatch(GetMoviesGenre.start(item.toString(), _onResult));
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -75,14 +75,30 @@ class _HomePageState extends State<HomePage> {
               PopupMenuButton<String>(
                 onSelected: (item) {
                   state.movies.clear();
-                  StoreProvider.of<AppState>(context, listen: false).dispatch(
-                      GetMoviesGenre.start(item.toString(), _onResult));
-                  
+                  genre = item.toString();
+                  StoreProvider.of<AppState>(context, listen: false)
+                      .dispatch(GetMovies.start(genre, _onResult));
                 },
                 itemBuilder: (context) => [
                   const PopupMenuItem<String>(
+                    value: "",
+                    child: Text("All"),
+                  ),
+                  const PopupMenuItem<String>(
                     value: "Comedy",
                     child: Text("Comedy"),
+                  ),
+                  const PopupMenuItem<String>(
+                    value: "Thriller",
+                    child: Text("Thriller"),
+                  ),
+                  const PopupMenuItem<String>(
+                    value: "Adventure",
+                    child: Text("Adventure"),
+                  ),
+                  const PopupMenuItem<String>(
+                    value: "Action",
+                    child: Text("Action"),
                   ),
                 ],
               ),
@@ -100,11 +116,9 @@ class _HomePageState extends State<HomePage> {
               return MoviesContainer(
                 builder: (BuildContext context, List<Movie> movies) {
                   final isLoading =
-                      state.pending.contains(GetMovies.pendingKey) ||
-                          state.pending.contains(GetMoviesGenre.pendingKey);
+                      state.pending.contains(GetMovies.pendingKey) ;
                   final isLoadingMore =
-                      state.pending.contains(GetMovies.pendingKey) ||
-                          state.pending.contains(GetMoviesGenre.pendingKey);
+                      state.pending.contains(GetMovies.pendingKey) ;
                   if (isLoading && movies.isEmpty) {
                     return const Center(child: CircularProgressIndicator());
                   }

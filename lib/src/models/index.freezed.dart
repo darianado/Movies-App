@@ -24,7 +24,7 @@ class _$AppStateTearOff {
 
   AppState$ call(
       {List<Movie> movies = const <Movie>[],
-      int page = 1,
+      int page = 0,
       AppUser? user,
       Set<String> pending = const <String>{},
       List<Comment> comments = const <Comment>[],
@@ -218,7 +218,7 @@ class _$AppState$CopyWithImpl<$Res> extends _$AppStateCopyWithImpl<$Res>
 class _$AppState$ implements AppState$ {
   const _$AppState$(
       {this.movies = const <Movie>[],
-      this.page = 1,
+      this.page = 0,
       this.user,
       this.pending = const <String>{},
       this.comments = const <Comment>[],
