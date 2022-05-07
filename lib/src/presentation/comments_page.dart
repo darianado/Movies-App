@@ -45,11 +45,11 @@ class _CommentsPageState extends State<CommentsPage> {
             title: Text(movie.title),
           ),
           body: UsersContainer(
-              builder: (BuildContext context, Map<String, AppUser> users) {
-            return CommentsContainer(
-              builder: (BuildContext context, List<Comment> comments) {
-                return SafeArea(
-                  child: Column(
+            builder: (BuildContext context, Map<String, AppUser> users) {
+              return CommentsContainer(
+                builder: (BuildContext context, List<Comment> comments) {
+                  return SafeArea(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
                         Padding(
@@ -83,8 +83,7 @@ class _CommentsPageState extends State<CommentsPage> {
                                       height: 10,
                                     ),
                                     SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.56,
+                                      width: MediaQuery.of(context).size.width * 0.56,
                                       height: 220,
                                       child: SingleChildScrollView(
                                         child: Text(
@@ -106,7 +105,9 @@ class _CommentsPageState extends State<CommentsPage> {
                             child: Text(
                               'Comments:',
                               style: TextStyle(
-                                  fontSize: 25, fontStyle: FontStyle.italic,),
+                                fontSize: 25,
+                                fontStyle: FontStyle.italic,
+                              ),
                             ),
                           ),
                         ),
@@ -121,8 +122,7 @@ class _CommentsPageState extends State<CommentsPage> {
                                 return ListTile(
                                   title: Text(comment.text),
                                   subtitle: Text(
-                                    <Object>[user.username, comment.createdAt]
-                                        .join('\n'),
+                                    <Object>[user.username, comment.createdAt].join('\n'),
                                   ),
                                 );
                               },
@@ -151,18 +151,21 @@ class _CommentsPageState extends State<CommentsPage> {
                                     return;
                                   }
                                   StoreProvider.of<AppState>(context).dispatch(
-                                      CreateComment.start(_controller.text),);
+                                    CreateComment.start(_controller.text),
+                                  );
                                   _controller.clear();
                                 },
                               ),
                             ),
                           ),
                         ),
-                      ],),
-                );
-              },
-            );
-          },),
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
+          ),
         );
       },
     );

@@ -18,7 +18,7 @@ class MovieApi {
         queryParameters: <String, dynamic>{
           'page': '$page',
           'quality': '3D',
-          'genre': genre ,
+          'genre': genre,
         },
       ),
     );
@@ -36,8 +36,14 @@ class MovieApi {
 
   Stream<List<Comment>> listenForComments(int movieId) {
     // final QuerySnapshot<Map<String, dynamic>> snapshot =
-    return _firestore.collection('comments').where('movieId', isEqualTo: movieId).snapshots().map((QuerySnapshot<Map<String, dynamic>> snapshot) {
-      return snapshot.docs.map((QueryDocumentSnapshot<Map<String, dynamic>> doc) => Comment.fromJson(doc.data())).toList();
+    return _firestore
+        .collection('comments')
+        .where('movieId', isEqualTo: movieId)
+        .snapshots()
+        .map((QuerySnapshot<Map<String, dynamic>> snapshot) {
+      return snapshot.docs
+          .map((QueryDocumentSnapshot<Map<String, dynamic>> doc) => Comment.fromJson(doc.data()))
+          .toList();
     });
   }
 

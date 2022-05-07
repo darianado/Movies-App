@@ -152,23 +152,26 @@ class _HomePageState extends State<HomePage> {
                             },
                             child: Column(
                               children: <Widget>[
-                                Stack(children: <Widget>[
-                                  SizedBox(
-                                    height: 320,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(top: 33),
-                                      child: Image.network(movie.poster),
+                                Stack(
+                                  children: <Widget>[
+                                    SizedBox(
+                                      height: 320,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(top: 33),
+                                        child: Image.network(movie.poster),
+                                      ),
                                     ),
-                                  ),
-                                  IconButton(
+                                    IconButton(
                                       iconSize: 50,
                                       color: const Color(0xFF82204A),
                                       onPressed: () {
                                         StoreProvider.of<AppState>(context)
                                             .dispatch(UpdateFavorites(movie.id, add: !isFavorite));
                                       },
-                                      icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),)
-                                ],),
+                                      icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
+                                    )
+                                  ],
+                                ),
                                 Center(
                                   child: Text(
                                     movie.title,

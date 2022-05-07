@@ -71,8 +71,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         decoration: const InputDecoration(
                           hintText: 'Email',
                           border: InputBorder.none,
-                          focusedBorder: UnderlineInputBorder(
-                          ),
+                          focusedBorder: UnderlineInputBorder(),
                           icon: Icon(Icons.email, color: Color(0xFF231123)),
                         ),
                         autofocus: true,
@@ -95,8 +94,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         decoration: const InputDecoration(
                           hintText: 'Password',
                           border: InputBorder.none,
-                          focusedBorder: UnderlineInputBorder(
-                          ),
+                          focusedBorder: UnderlineInputBorder(),
                           icon: Icon(Icons.lock, color: Color(0xFF231123)),
                         ),
                         keyboardType: TextInputType.visiblePassword,
@@ -121,8 +119,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         decoration: const InputDecoration(
                           hintText: 'Username',
                           border: InputBorder.none,
-                          focusedBorder: UnderlineInputBorder(
-                          ),
+                          focusedBorder: UnderlineInputBorder(),
                           icon: Icon(Icons.person, color: Color(0xFF231123)),
                         ),
                         validator: (String? value) {
@@ -139,40 +136,42 @@ class _SignUpPageState extends State<SignUpPage> {
                         height: 20,
                       ),
                       ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(const Color(0xFF231123)),
-                            minimumSize: MaterialStateProperty.all(const Size(200, 40)),
-                            shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(const Color(0xFF231123)),
+                          minimumSize: MaterialStateProperty.all(const Size(200, 40)),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
                             ),
                           ),
-                          onPressed: () => _onNext(context),
-                          child: const Text(
-                            'SignUp',
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
-                          ),),
+                        ),
+                        onPressed: () => _onNext(context),
+                        child: const Text(
+                          'SignUp',
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
                       ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(const Color(0xFF82204A)),
-                            minimumSize: MaterialStateProperty.all(const Size(200, 40)),
-                            shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(const Color(0xFF82204A)),
+                          minimumSize: MaterialStateProperty.all(const Size(200, 40)),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
                             ),
                           ),
-                          // ignore: always_specify_types
-                          onPressed: () => {Navigator.pop(context)},
-                          child: const Text(
-                            'Login',
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
-                          ),)
+                        ),
+                        // ignore: always_specify_types
+                        onPressed: () => {Navigator.pop(context)},
+                        child: const Text(
+                          'Login',
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),

@@ -22,10 +22,13 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-    StoreProvider.of<AppState>(context).dispatch(Login.start(
+    StoreProvider.of<AppState>(context).dispatch(
+      Login.start(
         email: _email.text,
         password: _password.text,
-        onResult: _onResult,),);
+        onResult: _onResult,
+      ),
+    );
   }
 
   void _onResult(AppAction action) {
@@ -44,125 +47,125 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: const Color(0xFFD4D1E6),
       body: Form(
-        child: PendingContainer(builder: (BuildContext context, Set<String> pending) {
-          if (pending.contains(Login.pendingKey)) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return SafeArea(
+        child: PendingContainer(
+          builder: (BuildContext context, Set<String> pending) {
+            if (pending.contains(Login.pendingKey)) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return SafeArea(
               child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Image.asset(
-                    'assets/images/movie_logo.png',
-                    height: 100,
-                    width: 100,
-                  ),
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  TextFormField(
-                    controller: _email,
-                    keyboardType: TextInputType.emailAddress,
-                    textInputAction: TextInputAction.next,
-                    autofocus: true,
-                    decoration: const InputDecoration(
-                      hintText: 'Email',
-                      border: InputBorder.none,
-                      focusedBorder: UnderlineInputBorder(
-                        
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Image.asset(
+                        'assets/images/movie_logo.png',
+                        height: 100,
+                        width: 100,
                       ),
-                      icon: Icon(Icons.email, color: Color(0xFF231123)),
-                    ),
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Enter something';
-                      } else if (!value.contains('@')) {
-                        return 'Enter something';
-                      }
-                      return null;
-                    },
-                    onFieldSubmitted: (String value) {
-                      FocusScope.of(context).requestFocus(_passwordNode);
-                    },
-                  ),
-                  TextFormField(
-                    controller: _password,
-                    focusNode: _passwordNode,
-                    textInputAction: TextInputAction.done,
-                    keyboardType: TextInputType.visiblePassword,
-                    decoration: const InputDecoration(
-                      hintText: 'Password',
-                      border: InputBorder.none,
-                      focusedBorder: UnderlineInputBorder(
+                      const SizedBox(
+                        height: 50,
                       ),
-                      icon: Icon(
-                        Icons.lock,
-                        color: Color(0xFF231123),
+                      TextFormField(
+                        controller: _email,
+                        keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.next,
+                        autofocus: true,
+                        decoration: const InputDecoration(
+                          hintText: 'Email',
+                          border: InputBorder.none,
+                          focusedBorder: UnderlineInputBorder(),
+                          icon: Icon(Icons.email, color: Color(0xFF231123)),
+                        ),
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Enter something';
+                          } else if (!value.contains('@')) {
+                            return 'Enter something';
+                          }
+                          return null;
+                        },
+                        onFieldSubmitted: (String value) {
+                          FocusScope.of(context).requestFocus(_passwordNode);
+                        },
                       ),
-                    ),
-                    obscureText: true,
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Enter something';
-                      } else if (value.length < 6) {
-                        return 'Too short';
-                      }
-                      return null;
-                    },
-                    onFieldSubmitted: (String value) {
-                      _onNext(context);
-                    },
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(const Color(0xFF231123)),
-                      minimumSize: MaterialStateProperty.all(const Size(200, 40)),
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
+                      TextFormField(
+                        controller: _password,
+                        focusNode: _passwordNode,
+                        textInputAction: TextInputAction.done,
+                        keyboardType: TextInputType.visiblePassword,
+                        decoration: const InputDecoration(
+                          hintText: 'Password',
+                          border: InputBorder.none,
+                          focusedBorder: UnderlineInputBorder(),
+                          icon: Icon(
+                            Icons.lock,
+                            color: Color(0xFF231123),
+                          ),
+                        ),
+                        obscureText: true,
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Enter something';
+                          } else if (value.length < 6) {
+                            return 'Too short';
+                          }
+                          return null;
+                        },
+                        onFieldSubmitted: (String value) {
+                          _onNext(context);
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(const Color(0xFF231123)),
+                          minimumSize: MaterialStateProperty.all(const Size(200, 40)),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                          ),
+                        ),
+                        onPressed: () => _onNext(context),
+                        child: const Text(
+                          'Login',
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
                         ),
                       ),
-                    ),
-                    onPressed: () => _onNext(context),
-                    child: const Text(
-                      'Login',
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
-                  ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(const Color(0xFF82204A)),
-                      minimumSize: MaterialStateProperty.all(const Size(200, 40)),
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(const Color(0xFF82204A)),
+                          minimumSize: MaterialStateProperty.all(const Size(200, 40)),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                          ),
+                        ),
+                        // ignore: always_specify_types
+                        onPressed: () => {Navigator.pushNamed(context, '/signUp')},
+                        child: const Text(
+                          'SignUp',
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
                         ),
                       ),
-                    ),
-                    // ignore: always_specify_types
-                    onPressed: () => {Navigator.pushNamed(context, '/signUp')},
-                    child: const Text(
-                      'SignUp',
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
-          ),);
-        },),
+            );
+          },
+        ),
       ),
     );
   }
