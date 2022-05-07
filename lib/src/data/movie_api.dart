@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart';
-import 'package:movies/src/actions/index.dart';
 import 'package:movies/src/models/index.dart';
 
 class MovieApi {
@@ -23,11 +22,9 @@ class MovieApi {
         },
       ),
     );
-    
-    final Map<String, dynamic> result =
-        jsonDecode(response.body) as Map<String, dynamic>;
-    final List<dynamic> movies =
-        (result['data'] as Map<String, dynamic>)['movies'] as List<dynamic>;
+
+    final Map<String, dynamic> result = jsonDecode(response.body) as Map<String, dynamic>;
+    final List<dynamic> movies = (result['data'] as Map<String, dynamic>)['movies'] as List<dynamic>;
 
     final List<Movie> list = <Movie>[];
     for (final dynamic movie in movies) {
@@ -39,26 +36,15 @@ class MovieApi {
 
   Stream<List<Comment>> listenForComments(int movieId) {
     // final QuerySnapshot<Map<String, dynamic>> snapshot =
-    return _firestore
-        .collection("comments")
-        .where("movieId", isEqualTo: movieId)
-        .snapshots()
-        .map((snapshot) {
+    return _firestore.collection("comments").where("movieId", isEqualTo: movieId).snapshots().map((snapshot) {
       return snapshot.docs.map((doc) => Comment.fromJson(doc.data())).toList();
     });
   }
 
-  Future<void> createComment(
-      {required String uid, required int movieId, required String text}) async {
-    final DocumentReference<Map<String, dynamic>> ref =
-        _firestore.collection("comments").doc();
+  Future<void> createComment({required String uid, required int movieId, required String text}) async {
+    final DocumentReference<Map<String, dynamic>> ref = _firestore.collection("comments").doc();
 
-    final Comment comment = Comment(
-        id: ref.id,
-        uid: uid,
-        movieId: movieId,
-        text: text,
-        createdAt: DateTime.now());
+    final Comment comment = Comment(id: ref.id, uid: uid, movieId: movieId, text: text, createdAt: DateTime.now());
 
     ref.set(comment.toJson());
   }

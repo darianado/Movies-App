@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:movies/src/actions/index.dart';
@@ -23,8 +22,8 @@ class _CommentsPageState extends State<CommentsPage> {
   void initState() {
     super.initState();
     // Future.delayed(Duration.zero, () {
-      _store = StoreProvider.of<AppState>(context,listen: false);
-      _store.dispatch(ListenForComments.start(_store.state.selectedMovieId!));
+    _store = StoreProvider.of<AppState>(context, listen: false);
+    _store.dispatch(ListenForComments.start(_store.state.selectedMovieId!));
     // });
   }
 
@@ -41,116 +40,118 @@ class _CommentsPageState extends State<CommentsPage> {
       builder: (BuildContext context, Movie movie) {
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: Color(0xFFD4D1E6),
-            foregroundColor: Color(0xFF231123),
+            backgroundColor: const Color(0xFFD4D1E6),
+            foregroundColor: const Color(0xFF231123),
             title: Text(movie.title),
           ),
-          body: UsersContainer(
-              builder: ((BuildContext context, Map<String, AppUser> users) {
+          body: UsersContainer(builder: ((BuildContext context, Map<String, AppUser> users) {
             return CommentsContainer(
               builder: (BuildContext context, List<Comment> comments) {
                 return SafeArea(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SizedBox(
-                                      height: 220,
-                                      child: Image.network(movie.poster),
-                                    ),
-                              ),
-                              
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  // mainAxisSize: MainAxisSize.min,
+                  child: Column(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SizedBox(
+                              height: 220,
+                              child: Image.network(movie.poster),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              // mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Row(
                                   children: [
-                                    Row(
-                                      children: [
-                                        Icon(Icons.star,color: Color(0xFFE8DB7D),),
-                                        Text(
-                                          movie.rating.toString(),
-                                          style: TextStyle(fontSize: 30),),
-                                      ],
+                                    const Icon(
+                                      Icons.star,
+                                      color: Color(0xFFE8DB7D),
                                     ),
-                                    
-                                    SizedBox(height: 10,),
-                                    Container(
-                                      width: MediaQuery.of(context).size.width * 0.56,
-                                      height: 220,
-                                      child: SingleChildScrollView(
-                                        child: Text(movie.summary,style: TextStyle(fontSize: 15),),
-                                        ),
+                                    Text(
+                                      movie.rating.toString(),
+                                      style: const TextStyle(fontSize: 30),
                                     ),
                                   ],
                                 ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width * 0.56,
+                                  height: 220,
+                                  child: SingleChildScrollView(
+                                    child: Text(
+                                      movie.summary,
+                                      style: const TextStyle(fontSize: 15),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Comments:",
+                          style: TextStyle(fontSize: 25, fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                    ),
+                    if (comments.isNotEmpty)
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: comments.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final Comment comment = comments[index];
+                            final AppUser user = users[comment.uid]!;
+
+                            return ListTile(
+                              title: Text(comment.text),
+                              subtitle: Text(
+                                <Object>[user.username, comment.createdAt].join('\n'),
                               ),
-                            ],
+                            );
+                          },
+                        ),
+                      )
+                    else
+                      const Expanded(
+                        child: Center(
+                          child: Text("No comments yet!"),
+                        ),
+                      ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        controller: _controller,
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          labelText: 'Add a comment',
+                          contentPadding: const EdgeInsets.all(8),
+                          suffix: IconButton(
+                            icon: const Icon(
+                              Icons.send,
+                            ),
+                            onPressed: () {
+                              if (_controller.text.isEmpty) return;
+                              StoreProvider.of<AppState>(context).dispatch(CreateComment.start(_controller.text));
+                              _controller.clear();
+                            },
                           ),
                         ),
-                        const Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              "Comments:",
-                              style: TextStyle(fontSize: 25, fontStyle: FontStyle.italic),),
-                          ),),
-                        if (comments.isNotEmpty)
-                          Expanded(
-                            child: ListView.builder(
-                              itemCount: comments.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                final Comment comment = comments[index];
-                                final AppUser user = users[comment.uid]!;
-
-                                return ListTile(
-                                  title: Text(comment.text),
-                                  subtitle: Text(
-                                    <Object>[user.username, comment.createdAt]
-                                        .join('\n'),
-                                  ),
-                                );
-                              },
-                            ),
-                          )
-                        else
-                          const Expanded(
-                            child: Center(
-                              child: Text("No comments yet!"),
-                            ),
-                          ),
-                        
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: TextFormField(
-                              controller: _controller,
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                 labelText: 'Add a comment',
-                                contentPadding: EdgeInsets.all(8),
-                                suffix: IconButton(
-                                  icon: const Icon(
-                                    Icons.send,
-                                  ),
-                                  onPressed: () {
-                                    if (_controller.text.isEmpty) return;
-                                    StoreProvider.of<AppState>(context).dispatch(
-                                        CreateComment.start(_controller.text));
-                                    _controller.clear();
-                                  },
-                                ),
-                              ),
-                            ),
-                          ),
-                        
-                      ]),
+                      ),
+                    ),
+                  ]),
                 );
               },
             );

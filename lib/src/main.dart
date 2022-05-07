@@ -17,15 +17,13 @@ import 'package:movies/src/reducer/reducer.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final FirebaseApp app = await Firebase.initializeApp();
   final FirebaseAuth auth = FirebaseAuth.instanceFor(app: app);
-  final FirebaseFirestore firestore = FirebaseFirestore.instanceFor(app:app); 
-  final SharedPreferences preferences = await SharedPreferences.getInstance();
+  final FirebaseFirestore firestore = FirebaseFirestore.instanceFor(app: app);
 
   final Client client = Client();
   final MovieApi movieApi = MovieApi(client, firestore);
@@ -34,7 +32,7 @@ Future<void> main() async {
 
   final Store<AppState> store = Store<AppState>(
     reducer,
-    initialState:  const AppState(),
+    initialState: const AppState(),
     middleware: <Middleware<AppState>>[
       EpicMiddleware<AppState>(epic.getEpics()),
     ],

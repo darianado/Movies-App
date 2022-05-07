@@ -11,9 +11,9 @@ class CommentsContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, List<Comment>>(
-      converter: (Store<AppState> store) =>
-          store.state.comments.where((Comment comment) => comment.movieId == store.state.selectedMovieId)
-          .where((comment) => store.state.users[comment.uid]!=null)
+      converter: (Store<AppState> store) => store.state.comments
+          .where((Comment comment) => comment.movieId == store.state.selectedMovieId)
+          .where((comment) => store.state.users[comment.uid] != null)
           .toList(),
       builder: builder,
     );

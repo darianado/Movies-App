@@ -4,7 +4,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:movies/src/actions/index.dart';
 import 'package:movies/src/containers/pending_container.dart';
 import 'package:movies/src/models/index.dart';
-import 'package:movies/src/presentation/home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -19,9 +18,6 @@ class _LoginPageState extends State<LoginPage> {
   final FocusNode _passwordNode = FocusNode();
 
   void _onNext(BuildContext context) {
-    print("bbbbbb ");
-    
-    
     if (!Form.of(context)!.validate()) {
       return;
     }
@@ -32,31 +28,25 @@ class _LoginPageState extends State<LoginPage> {
         onResult: (AppAction action) {
           _onResult(action);
         }));
-        User? user = FirebaseAuth.instance.currentUser;
-        print("$user");
   }
 
   void _onResult(AppAction action) {
     if (action is ErrorAction) {
       final Object error = action.error;
       if (error is FirebaseAuthException) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(error.message ?? "")));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error.message ?? "")));
       } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("$error")));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("$error")));
       }
-    } else print("da ba");
     }
-  
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFD4D1E6),
+      backgroundColor: const Color(0xFFD4D1E6),
       body: Form(
-        child: PendingContainer(
-            builder: (BuildContext context, Set<String> pending) {
+        child: PendingContainer(builder: (BuildContext context, Set<String> pending) {
           if (pending.contains(Login.pendingKey)) {
             return const Center(
               child: CircularProgressIndicator(),
@@ -69,8 +59,14 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Image.asset('assets/images/movie_logo.png',height: 100,width: 100,),
-                  SizedBox(height: 50,),
+                  Image.asset(
+                    'assets/images/movie_logo.png',
+                    height: 100,
+                    width: 100,
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
                   TextFormField(
                     controller: _email,
                     keyboardType: TextInputType.emailAddress,
@@ -78,17 +74,17 @@ class _LoginPageState extends State<LoginPage> {
                     autofocus: true,
                     decoration: const InputDecoration(
                       hintText: "Email",
-                      border:InputBorder.none,
-                      focusedBorder:UnderlineInputBorder(
+                      border: InputBorder.none,
+                      focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.black),
                       ),
                       icon: Icon(Icons.email, color: Color(0xFF231123)),
                     ),
                     validator: (String? value) {
                       if (value == null || value.isEmpty) {
-                        return " pls enter smthing";
+                        return "Enter something";
                       } else if (!value.contains('@')) {
-                        return "not valid email";
+                        return "Enter something";
                       }
                       return null;
                     },
@@ -103,18 +99,21 @@ class _LoginPageState extends State<LoginPage> {
                     keyboardType: TextInputType.visiblePassword,
                     decoration: const InputDecoration(
                       hintText: "Password",
-                      border:InputBorder.none,
-                      focusedBorder:UnderlineInputBorder(
+                      border: InputBorder.none,
+                      focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.black),
                       ),
-                      icon: Icon(Icons.lock,color: Color(0xFF231123),),
+                      icon: Icon(
+                        Icons.lock,
+                        color: Color(0xFF231123),
                       ),
+                    ),
                     obscureText: true,
                     validator: (String? value) {
                       if (value == null || value.isEmpty) {
-                        return " pls enter smthing";
+                        return "Enter something";
                       } else if (value.length < 6) {
-                        return "short";
+                        return "Too short";
                       }
                       return null;
                     },
@@ -122,34 +121,45 @@ class _LoginPageState extends State<LoginPage> {
                       _onNext(context);
                     },
                   ),
-                  SizedBox(height: 20,),
-                   ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor:  MaterialStateProperty.all(Color(0xFF231123)),
-                        minimumSize: MaterialStateProperty.all(const Size(200, 40)),
-                        shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                        ),),),
-                      onPressed: () => _onNext(context),
-                      child: const Text(
-                        "Login",
-                        style:TextStyle(fontSize: 18,),
-                      ),),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   ElevatedButton(
-                    style:ButtonStyle(
-                        backgroundColor:  MaterialStateProperty.all(Color(0xFF82204A)),
-                        minimumSize: MaterialStateProperty.all(const Size(200, 40)),
-                        shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                        ),),),
-                      onPressed: () =>
-                          {Navigator.pushNamed(context, '/signUp')},
-                      child: const Text(
-                        "Signup",
-                         style:TextStyle(fontSize: 18,),
-                      ),),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(const Color(0xFF231123)),
+                      minimumSize: MaterialStateProperty.all(const Size(200, 40)),
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                    ),
+                    onPressed: () => _onNext(context),
+                    child: const Text(
+                      "Login",
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(const Color(0xFF82204A)),
+                      minimumSize: MaterialStateProperty.all(const Size(200, 40)),
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                    ),
+                    onPressed: () => {Navigator.pushNamed(context, '/signUp')},
+                    child: const Text(
+                      "SignUp",
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

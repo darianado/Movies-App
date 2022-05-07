@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:http/http.dart';
 import 'package:movies/src/actions/index.dart';
 import 'package:movies/src/containers/home_page_container.dart';
 import 'package:movies/src/containers/movies_container.dart';
@@ -23,8 +22,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    StoreProvider.of<AppState>(context, listen: false)
-        .dispatch(GetMovies.start(genre, _onResult));
+    StoreProvider.of<AppState>(context, listen: false).dispatch(GetMovies.start(genre, _onResult));
     _controller.addListener(_onScroll);
   }
 
@@ -37,8 +35,7 @@ class _HomePageState extends State<HomePage> {
       GetMovies.pendingKeyMore,
     ].any(store.state.pending.contains);
     if (offset >= extent - MediaQuery.of(context).size.height && !isLoading) {
-      StoreProvider.of<AppState>(context)
-          .dispatch(GetMovies.more(genre, _onResult));
+      StoreProvider.of<AppState>(context).dispatch(GetMovies.more(genre, _onResult));
     }
   }
 
@@ -50,12 +47,10 @@ class _HomePageState extends State<HomePage> {
 
   void _onResult(AppAction action) {
     if (action is GetMoviesSuccessful) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text("page loaded")));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("page loaded")));
     } else if (action is GetMoviesError) {
       final Object error = action.error;
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Error: $error")));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error: $error")));
     }
   }
 
@@ -71,22 +66,21 @@ class _HomePageState extends State<HomePage> {
       builder: (BuildContext context, AppState state) {
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: Color(0xFFD4D1E6),
-            foregroundColor: Color(0xFF231123),
+            backgroundColor: const Color(0xFFD4D1E6),
+            foregroundColor: const Color(0xFF231123),
             actions: [
               PopupMenuButton<String>(
                 onSelected: (item) {
                   state.movies.clear();
                   genre = item.toString();
-                  StoreProvider.of<AppState>(context, listen: false)
-                      .dispatch(GetMovies.start(genre, _onResult));
+                  StoreProvider.of<AppState>(context, listen: false).dispatch(GetMovies.start(genre, _onResult));
                 },
                 itemBuilder: (context) => [
                   const PopupMenuItem<String>(
                     value: "",
                     child: Text("All"),
                   ),
-                   const PopupMenuItem<String>(
+                  const PopupMenuItem<String>(
                     value: "Action",
                     child: Text("Action"),
                   ),
@@ -102,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                     value: "Comedy",
                     child: Text("Comedy"),
                   ),
-                   const PopupMenuItem<String>(
+                  const PopupMenuItem<String>(
                     value: "Drama",
                     child: Text("Drama"),
                   ),
@@ -129,10 +123,9 @@ class _HomePageState extends State<HomePage> {
             builder: (BuildContext context, Set<String> pending) {
               return MoviesContainer(
                 builder: (BuildContext context, List<Movie> movies) {
-                  final isLoading =
-                      state.pending.contains(GetMovies.pendingKey) ;
-                  final isLoadingMore =
-                      state.pending.contains(GetMovies.pendingKey) ;
+                  final isLoadingStart = state.pending.contains(GetMovies.pendingKey);
+                  final isLoadingMore = state.pending.contains(GetMovies.pendingKey);
+                  final bool isLoading = isLoadingStart || isLoadingMore;
                   if (isLoading && movies.isEmpty) {
                     return const Center(child: CircularProgressIndicator());
                   }
@@ -149,13 +142,11 @@ class _HomePageState extends State<HomePage> {
                           }
                           final Movie movie = movies[index];
 
-                          final bool isFavorite =
-                              user!.favoriteMovies.contains(movie.id);
+                          final bool isFavorite = user!.favoriteMovies.contains(movie.id);
 
                           return GestureDetector(
                             onTap: () {
-                              StoreProvider.of<AppState>(context)
-                                  .dispatch(SetSelectedMovieId(movie.id));
+                              StoreProvider.of<AppState>(context).dispatch(SetSelectedMovieId(movie.id));
                               Navigator.pushNamed(context, '/comments');
                             },
                             child: Column(
@@ -164,24 +155,26 @@ class _HomePageState extends State<HomePage> {
                                   SizedBox(
                                     height: 320,
                                     child: Padding(
-                                      padding: const EdgeInsets.only(top:33.0),
+                                      padding: const EdgeInsets.only(top: 33.0),
                                       child: Image.network(movie.poster),
                                     ),
                                   ),
                                   IconButton(
                                       iconSize: 50,
-                                      color:Color(0xFF82204A),
+                                      color: const Color(0xFF82204A),
                                       onPressed: () {
                                         StoreProvider.of<AppState>(context)
-                                            .dispatch(UpdateFavorites(movie.id,
-                                                add: !isFavorite));
+                                            .dispatch(UpdateFavorites(movie.id, add: !isFavorite));
                                       },
-                                      icon: Icon(isFavorite
-                                          ? Icons.favorite
-                                          : Icons.favorite_border))
+                                      icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border))
                                 ]),
                                 Center(
-                                  child: Text(movie.title,style:TextStyle(fontSize: 20,),),
+                                  child: Text(
+                                    movie.title,
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                    ),
+                                  ),
                                 ),
                                 Center(
                                   child: Text(movie.genres.join(', ')),

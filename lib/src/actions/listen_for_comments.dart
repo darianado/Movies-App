@@ -1,6 +1,5 @@
 part of "index.dart";
 
-
 @freezed
 class ListenForComments with _$ListenForComments implements AppAction {
   const factory ListenForComments.start(int movieId) = ListenForCommentsStart;

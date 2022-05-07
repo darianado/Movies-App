@@ -12,10 +12,12 @@ class MockFirebaseAuth with Mock implements FirebaseAuth {}
 
 class MockFirebaseFirestore with Mock implements FirebaseFirestore {}
 
+// ignore: subtype_of_sealed_class
 class MockDocumentReference
     with Mock
     implements DocumentReference<Map<String, dynamic>> {}
 
+// ignore: subtype_of_sealed_class
 class MockDocumentSnapshot
     with Mock
     implements DocumentSnapshot<Map<String, dynamic>> {}

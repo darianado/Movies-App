@@ -1,5 +1,4 @@
 import 'package:movies/src/actions/index.dart';
-import 'package:movies/src/data/auth_api.dart';
 import 'package:movies/src/data/movie_api.dart';
 import 'package:movies/src/models/index.dart';
 import 'package:redux_epics/redux_epics.dart';
@@ -44,11 +43,9 @@ class MovieEpic {
   //   });
   // }
 
-  Stream<AppAction> _getMovies(
-      Stream<dynamic> actions, EpicStore<AppState> store) {
+  Stream<AppAction> _getMovies(Stream<dynamic> actions, EpicStore<AppState> store) {
     return actions
-        .where((dynamic action) =>
-            action is GetMoviesStart || action is GetMoviesMore)
+        .where((dynamic action) => action is GetMoviesStart || action is GetMoviesMore)
         .flatMap((dynamic action) {
       String pendingId = '';
       ActionResult onResult = (_) {};
@@ -59,7 +56,7 @@ class MovieEpic {
       } else if (action is GetMoviesMore) {
         pendingId = action.pendingId;
         onResult = action.onResult;
-        page = store.state.page ;
+        page = store.state.page;
       }
       return Stream<void>.value(null)
           .asyncMap((_) => _movieApi.getMovies(page, action.genre))
@@ -71,14 +68,9 @@ class MovieEpic {
     });
   }
 
-  Stream<AppAction> _listenForComments(
-      Stream<dynamic> actions, EpicStore<AppState> store) {
-    return actions
-        .whereType<ListenForCommentsStart>()
-        .flatMap((ListenForCommentsStart action) {
-      return _movieApi
-          .listenForComments(action.movieId)
-          .expand((List<Comment> comments) {
+  Stream<AppAction> _listenForComments(Stream<dynamic> actions, EpicStore<AppState> store) {
+    return actions.whereType<ListenForCommentsStart>().flatMap((ListenForCommentsStart action) {
+      return _movieApi.listenForComments(action.movieId).expand((List<Comment> comments) {
         return <AppAction>[
           ListenForComments.event(comments),
           ...comments
@@ -87,14 +79,12 @@ class MovieEpic {
               .toSet()
         ];
       }).takeUntil<dynamic>(actions.where((dynamic event) {
-        return event is ListenForCommentsDone &&
-            event.movieId == action.movieId;
+        return event is ListenForCommentsDone && event.movieId == action.movieId;
       })).onErrorReturnWith($ListenForComments.error);
     });
   }
 
-  Stream<AppAction> _createCommentStart(
-      Stream<CreateCommentStart> actions, EpicStore<AppState> store) {
+  Stream<AppAction> _createCommentStart(Stream<CreateCommentStart> actions, EpicStore<AppState> store) {
     return actions.flatMap((action) {
       return Stream<void>.value(null)
           .asyncMap((_) => _movieApi.createComment(

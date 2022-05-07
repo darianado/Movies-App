@@ -10,8 +10,9 @@ class SelectedMovieContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState,Movie>(
-      converter: (Store<AppState> store) => store.state.movies.firstWhere((Movie element) => element.id==store.state.selectedMovieId),
+    return StoreConnector<AppState, Movie>(
+      converter: (Store<AppState> store) =>
+          store.state.movies.firstWhere((Movie element) => element.id == store.state.selectedMovieId),
       builder: builder,
     );
   }

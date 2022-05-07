@@ -23,11 +23,8 @@ class _SignUpPageState extends State<SignUpPage> {
       return;
     }
 
-    final CreateUser action = CreateUser(
-        email: _email.text,
-        username: _username.text,
-        password: _password.text,
-        onResult: _onResult);
+    final CreateUser action =
+        CreateUser(email: _email.text, username: _username.text, password: _password.text, onResult: _onResult);
 
     StoreProvider.of<AppState>(context).dispatch(action);
 
@@ -38,11 +35,9 @@ class _SignUpPageState extends State<SignUpPage> {
     if (action is ErrorAction) {
       final Object error = action.error;
       if (error is FirebaseAuthException) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(error.message ?? "")));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error.message ?? "")));
       } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("$error")));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("$error")));
       }
     }
   }
@@ -50,7 +45,7 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFD4D1E6),
+      backgroundColor: const Color(0xFFD4D1E6),
       body: Form(
         child: Builder(
           builder: (BuildContext context) {
@@ -61,26 +56,32 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Image.asset('assets/images/movie_logo.png',height: 100,width: 100,),
-                      SizedBox(height: 50,),
+                      Image.asset(
+                        'assets/images/movie_logo.png',
+                        height: 100,
+                        width: 100,
+                      ),
+                      const SizedBox(
+                        height: 50,
+                      ),
                       TextFormField(
                         controller: _email,
                         keyboardType: TextInputType.emailAddress,
                         textInputAction: TextInputAction.next,
                         decoration: const InputDecoration(
-                            hintText: "Email",
-                            border:InputBorder.none,
-                            focusedBorder:UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
-                            ),
-                            icon: Icon(Icons.email, color: Color(0xFF231123)),
+                          hintText: "Email",
+                          border: InputBorder.none,
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
                           ),
+                          icon: Icon(Icons.email, color: Color(0xFF231123)),
+                        ),
                         autofocus: true,
                         validator: (String? value) {
                           if (value == null || value.isEmpty) {
-                            return " pls enter smthing";
+                            return "Enter something";
                           } else if (!value.contains('@')) {
-                            return "not valid email";
+                            return "Not a valid email";
                           }
                           return null;
                         },
@@ -92,19 +93,19 @@ class _SignUpPageState extends State<SignUpPage> {
                         controller: _password,
                         focusNode: _passwordNode,
                         textInputAction: TextInputAction.next,
-                        decoration:const InputDecoration(
-                            hintText: "Password",
-                            border:InputBorder.none,
-                            focusedBorder:UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
-                            ),
-                            icon: Icon(Icons.lock,color: Color(0xFF231123)),
+                        decoration: const InputDecoration(
+                          hintText: "Password",
+                          border: InputBorder.none,
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
                           ),
+                          icon: Icon(Icons.lock, color: Color(0xFF231123)),
+                        ),
                         keyboardType: TextInputType.visiblePassword,
                         obscureText: true,
                         validator: (String? value) {
                           if (value == null || value.isEmpty) {
-                            return " pls enter smthing";
+                            return "Enter something";
                           } else if (value.length < 6) {
                             return "short";
                           }
@@ -120,16 +121,16 @@ class _SignUpPageState extends State<SignUpPage> {
                         textInputAction: TextInputAction.done,
                         keyboardType: TextInputType.name,
                         decoration: const InputDecoration(
-                            hintText: "Username",
-                            border:InputBorder.none,
-                            focusedBorder:UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
-                            ),
-                            icon: Icon(Icons.person, color: Color(0xFF231123)),
+                          hintText: "Username",
+                          border: InputBorder.none,
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
                           ),
+                          icon: Icon(Icons.person, color: Color(0xFF231123)),
+                        ),
                         validator: (String? value) {
                           if (value == null || value.isEmpty) {
-                            return " pls enter smthing";
+                            return "Enter something";
                           }
                           return null;
                         },
@@ -137,32 +138,42 @@ class _SignUpPageState extends State<SignUpPage> {
                           _onNext(context);
                         },
                       ),
-                      SizedBox(height: 20,),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       ElevatedButton(
                           style: ButtonStyle(
-                              backgroundColor:  MaterialStateProperty.all(Color(0xFF231123)),
-                              minimumSize: MaterialStateProperty.all(const Size(200, 40)),
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                              ),),),
+                            backgroundColor: MaterialStateProperty.all(const Color(0xFF231123)),
+                            minimumSize: MaterialStateProperty.all(const Size(200, 40)),
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                            ),
+                          ),
                           onPressed: () => _onNext(context),
                           child: const Text(
-                            "Signup",
-                            style:TextStyle(fontSize: 18,),
+                            "SignUp",
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
                           )),
                       ElevatedButton(
-                          style:ButtonStyle(
-                              backgroundColor:  MaterialStateProperty.all(Color(0xFF82204A)),
-                              minimumSize: MaterialStateProperty.all(const Size(200, 40)),
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                              ),),),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(const Color(0xFF82204A)),
+                            minimumSize: MaterialStateProperty.all(const Size(200, 40)),
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                            ),
+                          ),
                           onPressed: () => {Navigator.pop(context)},
                           child: const Text(
                             "Login",
-                            style:TextStyle(fontSize: 18,),
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
                           ))
                     ],
                   ),

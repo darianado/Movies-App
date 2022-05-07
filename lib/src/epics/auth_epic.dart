@@ -1,7 +1,5 @@
 import 'package:movies/src/actions/index.dart';
-import 'package:movies/src/data/auth_api.dart';
 import 'package:movies/src/data/auth_base_api.dart';
-import 'package:movies/src/data/movie_api.dart';
 import 'package:movies/src/models/index.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
@@ -22,22 +20,17 @@ class AuthEpic {
     ]);
   }
 
-  Stream<AppAction> _loginStart(
-      Stream<LoginStart> actions, EpicStore<AppState> store) {
+  Stream<AppAction> _loginStart(Stream<LoginStart> actions, EpicStore<AppState> store) {
     return actions.flatMap((LoginStart action) {
       return Stream<void>.value(null)
-          .asyncMap((_) =>
-              _authApi.login(email: action.email, password: action.password))
+          .asyncMap((_) => _authApi.login(email: action.email, password: action.password))
           .map<Login>($Login.successful)
           .onErrorReturnWith($Login.error)
           .doOnData(action.onResult);
     });
   }
 
-
-
-   Stream<AppAction> _getCurrentUserStart(
-      Stream<GetCurrentUserStart> actions, EpicStore<AppState> store) {
+  Stream<AppAction> _getCurrentUserStart(Stream<GetCurrentUserStart> actions, EpicStore<AppState> store) {
     return actions.flatMap((GetCurrentUserStart action) {
       return Stream<void>.value(null)
           .asyncMap((_) => _authApi.getCurrentUser())
@@ -45,37 +38,29 @@ class AuthEpic {
           .onErrorReturnWith($GetCurrentUser.error);
     });
   }
-  
-  Stream<AppAction> _createUserStart(
-      Stream<CreateUserStart> actions, EpicStore<AppState> store) {
+
+  Stream<AppAction> _createUserStart(Stream<CreateUserStart> actions, EpicStore<AppState> store) {
     return actions.flatMap((CreateUserStart action) {
       return Stream<void>.value(null)
-          .asyncMap((_) => _authApi.create(
-              email: action.email,
-              password: action.password,
-              username: action.username))
+          .asyncMap((_) => _authApi.create(email: action.email, password: action.password, username: action.username))
           .map<CreateUser>($CreateUser.successful)
           .onErrorReturnWith($CreateUser.error)
           .doOnData(action.onResult);
     });
   }
 
-  
-  Stream<AppAction> _updateFavoritesStart(
-      Stream<UpdateFavoritesStart> actions, EpicStore<AppState> store) {
+  Stream<AppAction> _updateFavoritesStart(Stream<UpdateFavoritesStart> actions, EpicStore<AppState> store) {
     return actions.flatMap((UpdateFavoritesStart action) {
       return Stream<void>.value(null)
           .asyncMap((_) => _authApi.updateFavorites(store.state.user!.uid, action.id, add: action.add))
           .mapTo(const UpdateFavorites.successful())
           .onErrorReturnWith((error, stackTrace) {
-        return UpdateFavorites.error(error, stackTrace, action.id,
-            add: action.add);
+        return UpdateFavorites.error(error, stackTrace, action.id, add: action.add);
       });
     });
   }
 
-  Stream<AppAction> _logoutStart(
-      Stream<LogoutStart> actions, EpicStore<AppState> store) {
+  Stream<AppAction> _logoutStart(Stream<LogoutStart> actions, EpicStore<AppState> store) {
     return actions.flatMap((LogoutStart action) {
       return Stream<void>.value(null)
           .asyncMap((_) => _authApi.logout())
@@ -86,8 +71,7 @@ class AuthEpic {
     });
   }
 
-   Stream<AppAction> _getUserStart(
-      Stream<GetUserStart> actions, EpicStore<AppState> store) {
+  Stream<AppAction> _getUserStart(Stream<GetUserStart> actions, EpicStore<AppState> store) {
     return actions.flatMap((GetUserStart action) {
       return Stream<void>.value(null)
           .asyncMap((_) => _authApi.getUser(action.uid))
@@ -95,6 +79,4 @@ class AuthEpic {
           .onErrorReturnWith($GetUser.error);
     });
   }
-  
-  
 }
