@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:http/http.dart';
 import 'package:movies/src/actions/index.dart';
 import 'package:movies/src/containers/home_page_container.dart';
 import 'package:movies/src/containers/movies_container.dart';
@@ -32,7 +33,9 @@ class _HomePageState extends State<HomePage> {
     final Store<AppState> store = StoreProvider.of<AppState>(context);
     final bool isLoading = <String>[
       GetMovies.pendingKey,
-      GetMovies.pendingKeyMore
+      GetMovies.pendingKeyMore,
+      GetMoviesGenre.pendingKey,
+      GetMoviesGenre.pendingKeyMore
     ].any(store.state.pending.contains);
     if (offset >= extent - MediaQuery.of(context).size.height && !isLoading) {
       StoreProvider.of<AppState>(context).dispatch(GetMovies.more(_onResult));
@@ -56,6 +59,11 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void onSelected(context, item) {
+    StoreProvider.of<AppState>(context, listen: false)
+        .dispatch(GetMoviesGenre.start(item.toString(), _onResult));
+  }
+
   @override
   Widget build(BuildContext context) {
     // final Store<AppState> store = StoreProvider.of<AppState>(context);
@@ -63,28 +71,44 @@ class _HomePageState extends State<HomePage> {
       builder: (BuildContext context, AppState state) {
         return Scaffold(
           appBar: AppBar(
+            actions: [
+              PopupMenuButton<String>(
+                onSelected: (item) {
+                  state.movies.clear();
+                  StoreProvider.of<AppState>(context, listen: false).dispatch(
+                      GetMoviesGenre.start(item.toString(), _onResult));
+                  
+                },
+                itemBuilder: (context) => [
+                  const PopupMenuItem<String>(
+                    value: "Comedy",
+                    child: Text("Comedy"),
+                  ),
+                ],
+              ),
+            ],
             leading: IconButton(
               onPressed: () {
                 StoreProvider.of<AppState>(context).dispatch(const Logout());
               },
               icon: const Icon(Icons.power_settings_new),
             ),
-            title: Align(
-              child: Text('Movies ${state.page}'),
-            ),
+            title: Text('Movies ${state.page}'),
           ),
           body: PendingContainer(
             builder: (BuildContext context, Set<String> pending) {
               return MoviesContainer(
                 builder: (BuildContext context, List<Movie> movies) {
                   final isLoading =
-                      state.pending.contains(GetMovies.pendingKey);
+                      state.pending.contains(GetMovies.pendingKey) ||
+                          state.pending.contains(GetMoviesGenre.pendingKey);
                   final isLoadingMore =
-                      state.pending.contains(GetMovies.pendingKey);
+                      state.pending.contains(GetMovies.pendingKey) ||
+                          state.pending.contains(GetMoviesGenre.pendingKey);
                   if (isLoading && movies.isEmpty) {
                     return const Center(child: CircularProgressIndicator());
                   }
-
+                  // print(movies[0]);
                   return UserContainer(
                     builder: (BuildContext context, AppUser? user) {
                       // ignore: dead_code

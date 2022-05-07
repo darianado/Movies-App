@@ -6,9 +6,15 @@ Reducer<AppState> movieReducer = combineReducers<AppState>(<Reducer<AppState>>[
   TypedReducer<AppState, GetMoviesSuccessful>(_getMoviesSuccessful),
   TypedReducer<AppState, OnCommentsEvent>(_onCommentsEvent),
   TypedReducer<AppState, SetSelectedMovieId>(_setSelectedMovieId),
+  TypedReducer<AppState, GetMoviesGenreSuccessful>(_getMoviesGenreSuccessful),
 ]);
 
 AppState _getMoviesSuccessful(AppState state, GetMoviesSuccessful action) {
+  return state.copyWith(
+      page: state.page + 1, movies: <Movie>[...state.movies, ...action.movies]);
+}
+
+AppState _getMoviesGenreSuccessful(AppState state, GetMoviesGenreSuccessful action) {
   return state.copyWith(
       page: state.page + 1, movies: <Movie>[...state.movies, ...action.movies]);
 }

@@ -35,6 +35,32 @@ class MovieApi {
     return list;
   }
 
+  Future<List<Movie>> getMoviesGenre(int page, String genre) async {
+    final Response response = await _client.get(
+      Uri(
+        scheme: 'https',
+        host: 'yts.mx',
+        path: '/api/v2/list_movies.json',
+        queryParameters: <String, dynamic>{
+          'page': '$page',
+          'quality': '3D',
+          'genre': genre,
+        },
+      ),
+    );
+    final Map<String, dynamic> result =
+        jsonDecode(response.body) as Map<String, dynamic>;
+    final List<dynamic> movies =
+        (result['data'] as Map<String, dynamic>)['movies'] as List<dynamic>;
+
+    final List<Movie> list = <Movie>[];
+    for (final dynamic movie in movies) {
+      final Map<String, dynamic> item = movie as Map<String, dynamic>;
+      list.add(Movie.fromJson(item));
+    }
+    return list;
+  }
+
   Stream<List<Comment>> listenForComments(int movieId) {
     // final QuerySnapshot<Map<String, dynamic>> snapshot =
     return _firestore

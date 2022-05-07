@@ -5606,3 +5606,889 @@ abstract class GetUserError implements GetUser, ErrorAction {
   $GetUserErrorCopyWith<GetUserError> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+/// @nodoc
+class _$GetMoviesGenreTearOff {
+  const _$GetMoviesGenreTearOff();
+
+  GetMoviesGenreStart start(String genre, ActionResult onResult,
+      {String pendingId = _kGetMoviesGenrePending}) {
+    return GetMoviesGenreStart(
+      genre,
+      onResult,
+      pendingId: pendingId,
+    );
+  }
+
+  GetMoviesGenreMore more(ActionResult onResult, String genre,
+      {String pendingId = _kGetMoviesGenreMorePending}) {
+    return GetMoviesGenreMore(
+      onResult,
+      genre,
+      pendingId: pendingId,
+    );
+  }
+
+  GetMoviesGenreSuccessful successful(List<Movie> movies, String pendingId) {
+    return GetMoviesGenreSuccessful(
+      movies,
+      pendingId,
+    );
+  }
+
+  GetMoviesGenreError error(
+      Object error, StackTrace stackTrace, String pendingId) {
+    return GetMoviesGenreError(
+      error,
+      stackTrace,
+      pendingId,
+    );
+  }
+}
+
+/// @nodoc
+const $GetMoviesGenre = _$GetMoviesGenreTearOff();
+
+/// @nodoc
+mixin _$GetMoviesGenre {
+  String get pendingId => throw _privateConstructorUsedError;
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            String genre, ActionResult onResult, String pendingId)
+        start,
+    required TResult Function(
+            ActionResult onResult, String genre, String pendingId)
+        more,
+    required TResult Function(List<Movie> movies, String pendingId) successful,
+    required TResult Function(
+            Object error, StackTrace stackTrace, String pendingId)
+        error,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(String genre, ActionResult onResult, String pendingId)?
+        start,
+    TResult Function(ActionResult onResult, String genre, String pendingId)?
+        more,
+    TResult Function(List<Movie> movies, String pendingId)? successful,
+    TResult Function(Object error, StackTrace stackTrace, String pendingId)?
+        error,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String genre, ActionResult onResult, String pendingId)?
+        start,
+    TResult Function(ActionResult onResult, String genre, String pendingId)?
+        more,
+    TResult Function(List<Movie> movies, String pendingId)? successful,
+    TResult Function(Object error, StackTrace stackTrace, String pendingId)?
+        error,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GetMoviesGenreStart value) start,
+    required TResult Function(GetMoviesGenreMore value) more,
+    required TResult Function(GetMoviesGenreSuccessful value) successful,
+    required TResult Function(GetMoviesGenreError value) error,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(GetMoviesGenreStart value)? start,
+    TResult Function(GetMoviesGenreMore value)? more,
+    TResult Function(GetMoviesGenreSuccessful value)? successful,
+    TResult Function(GetMoviesGenreError value)? error,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GetMoviesGenreStart value)? start,
+    TResult Function(GetMoviesGenreMore value)? more,
+    TResult Function(GetMoviesGenreSuccessful value)? successful,
+    TResult Function(GetMoviesGenreError value)? error,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $GetMoviesGenreCopyWith<GetMoviesGenre> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GetMoviesGenreCopyWith<$Res> {
+  factory $GetMoviesGenreCopyWith(
+          GetMoviesGenre value, $Res Function(GetMoviesGenre) then) =
+      _$GetMoviesGenreCopyWithImpl<$Res>;
+  $Res call({String pendingId});
+}
+
+/// @nodoc
+class _$GetMoviesGenreCopyWithImpl<$Res>
+    implements $GetMoviesGenreCopyWith<$Res> {
+  _$GetMoviesGenreCopyWithImpl(this._value, this._then);
+
+  final GetMoviesGenre _value;
+  // ignore: unused_field
+  final $Res Function(GetMoviesGenre) _then;
+
+  @override
+  $Res call({
+    Object? pendingId = freezed,
+  }) {
+    return _then(_value.copyWith(
+      pendingId: pendingId == freezed
+          ? _value.pendingId
+          : pendingId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class $GetMoviesGenreStartCopyWith<$Res>
+    implements $GetMoviesGenreCopyWith<$Res> {
+  factory $GetMoviesGenreStartCopyWith(
+          GetMoviesGenreStart value, $Res Function(GetMoviesGenreStart) then) =
+      _$GetMoviesGenreStartCopyWithImpl<$Res>;
+  @override
+  $Res call({String genre, ActionResult onResult, String pendingId});
+}
+
+/// @nodoc
+class _$GetMoviesGenreStartCopyWithImpl<$Res>
+    extends _$GetMoviesGenreCopyWithImpl<$Res>
+    implements $GetMoviesGenreStartCopyWith<$Res> {
+  _$GetMoviesGenreStartCopyWithImpl(
+      GetMoviesGenreStart _value, $Res Function(GetMoviesGenreStart) _then)
+      : super(_value, (v) => _then(v as GetMoviesGenreStart));
+
+  @override
+  GetMoviesGenreStart get _value => super._value as GetMoviesGenreStart;
+
+  @override
+  $Res call({
+    Object? genre = freezed,
+    Object? onResult = freezed,
+    Object? pendingId = freezed,
+  }) {
+    return _then(GetMoviesGenreStart(
+      genre == freezed
+          ? _value.genre
+          : genre // ignore: cast_nullable_to_non_nullable
+              as String,
+      onResult == freezed
+          ? _value.onResult
+          : onResult // ignore: cast_nullable_to_non_nullable
+              as ActionResult,
+      pendingId: pendingId == freezed
+          ? _value.pendingId
+          : pendingId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+@Implements<ActionStart>()
+class _$GetMoviesGenreStart implements GetMoviesGenreStart {
+  const _$GetMoviesGenreStart(this.genre, this.onResult,
+      {this.pendingId = _kGetMoviesGenrePending});
+
+  @override
+  final String genre;
+  @override
+  final ActionResult onResult;
+  @JsonKey()
+  @override
+  final String pendingId;
+
+  @override
+  String toString() {
+    return 'GetMoviesGenre.start(genre: $genre, onResult: $onResult, pendingId: $pendingId)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is GetMoviesGenreStart &&
+            const DeepCollectionEquality().equals(other.genre, genre) &&
+            (identical(other.onResult, onResult) ||
+                other.onResult == onResult) &&
+            const DeepCollectionEquality().equals(other.pendingId, pendingId));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(genre),
+      onResult,
+      const DeepCollectionEquality().hash(pendingId));
+
+  @JsonKey(ignore: true)
+  @override
+  $GetMoviesGenreStartCopyWith<GetMoviesGenreStart> get copyWith =>
+      _$GetMoviesGenreStartCopyWithImpl<GetMoviesGenreStart>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            String genre, ActionResult onResult, String pendingId)
+        start,
+    required TResult Function(
+            ActionResult onResult, String genre, String pendingId)
+        more,
+    required TResult Function(List<Movie> movies, String pendingId) successful,
+    required TResult Function(
+            Object error, StackTrace stackTrace, String pendingId)
+        error,
+  }) {
+    return start(genre, onResult, pendingId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(String genre, ActionResult onResult, String pendingId)?
+        start,
+    TResult Function(ActionResult onResult, String genre, String pendingId)?
+        more,
+    TResult Function(List<Movie> movies, String pendingId)? successful,
+    TResult Function(Object error, StackTrace stackTrace, String pendingId)?
+        error,
+  }) {
+    return start?.call(genre, onResult, pendingId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String genre, ActionResult onResult, String pendingId)?
+        start,
+    TResult Function(ActionResult onResult, String genre, String pendingId)?
+        more,
+    TResult Function(List<Movie> movies, String pendingId)? successful,
+    TResult Function(Object error, StackTrace stackTrace, String pendingId)?
+        error,
+    required TResult orElse(),
+  }) {
+    if (start != null) {
+      return start(genre, onResult, pendingId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GetMoviesGenreStart value) start,
+    required TResult Function(GetMoviesGenreMore value) more,
+    required TResult Function(GetMoviesGenreSuccessful value) successful,
+    required TResult Function(GetMoviesGenreError value) error,
+  }) {
+    return start(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(GetMoviesGenreStart value)? start,
+    TResult Function(GetMoviesGenreMore value)? more,
+    TResult Function(GetMoviesGenreSuccessful value)? successful,
+    TResult Function(GetMoviesGenreError value)? error,
+  }) {
+    return start?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GetMoviesGenreStart value)? start,
+    TResult Function(GetMoviesGenreMore value)? more,
+    TResult Function(GetMoviesGenreSuccessful value)? successful,
+    TResult Function(GetMoviesGenreError value)? error,
+    required TResult orElse(),
+  }) {
+    if (start != null) {
+      return start(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GetMoviesGenreStart implements GetMoviesGenre, ActionStart {
+  const factory GetMoviesGenreStart(String genre, ActionResult onResult,
+      {String pendingId}) = _$GetMoviesGenreStart;
+
+  String get genre;
+  ActionResult get onResult;
+  @override
+  String get pendingId;
+  @override
+  @JsonKey(ignore: true)
+  $GetMoviesGenreStartCopyWith<GetMoviesGenreStart> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GetMoviesGenreMoreCopyWith<$Res>
+    implements $GetMoviesGenreCopyWith<$Res> {
+  factory $GetMoviesGenreMoreCopyWith(
+          GetMoviesGenreMore value, $Res Function(GetMoviesGenreMore) then) =
+      _$GetMoviesGenreMoreCopyWithImpl<$Res>;
+  @override
+  $Res call({ActionResult onResult, String genre, String pendingId});
+}
+
+/// @nodoc
+class _$GetMoviesGenreMoreCopyWithImpl<$Res>
+    extends _$GetMoviesGenreCopyWithImpl<$Res>
+    implements $GetMoviesGenreMoreCopyWith<$Res> {
+  _$GetMoviesGenreMoreCopyWithImpl(
+      GetMoviesGenreMore _value, $Res Function(GetMoviesGenreMore) _then)
+      : super(_value, (v) => _then(v as GetMoviesGenreMore));
+
+  @override
+  GetMoviesGenreMore get _value => super._value as GetMoviesGenreMore;
+
+  @override
+  $Res call({
+    Object? onResult = freezed,
+    Object? genre = freezed,
+    Object? pendingId = freezed,
+  }) {
+    return _then(GetMoviesGenreMore(
+      onResult == freezed
+          ? _value.onResult
+          : onResult // ignore: cast_nullable_to_non_nullable
+              as ActionResult,
+      genre == freezed
+          ? _value.genre
+          : genre // ignore: cast_nullable_to_non_nullable
+              as String,
+      pendingId: pendingId == freezed
+          ? _value.pendingId
+          : pendingId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+@Implements<ActionStart>()
+class _$GetMoviesGenreMore implements GetMoviesGenreMore {
+  const _$GetMoviesGenreMore(this.onResult, this.genre,
+      {this.pendingId = _kGetMoviesGenreMorePending});
+
+  @override
+  final ActionResult onResult;
+  @override
+  final String genre;
+  @JsonKey()
+  @override
+  final String pendingId;
+
+  @override
+  String toString() {
+    return 'GetMoviesGenre.more(onResult: $onResult, genre: $genre, pendingId: $pendingId)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is GetMoviesGenreMore &&
+            (identical(other.onResult, onResult) ||
+                other.onResult == onResult) &&
+            const DeepCollectionEquality().equals(other.genre, genre) &&
+            const DeepCollectionEquality().equals(other.pendingId, pendingId));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      onResult,
+      const DeepCollectionEquality().hash(genre),
+      const DeepCollectionEquality().hash(pendingId));
+
+  @JsonKey(ignore: true)
+  @override
+  $GetMoviesGenreMoreCopyWith<GetMoviesGenreMore> get copyWith =>
+      _$GetMoviesGenreMoreCopyWithImpl<GetMoviesGenreMore>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            String genre, ActionResult onResult, String pendingId)
+        start,
+    required TResult Function(
+            ActionResult onResult, String genre, String pendingId)
+        more,
+    required TResult Function(List<Movie> movies, String pendingId) successful,
+    required TResult Function(
+            Object error, StackTrace stackTrace, String pendingId)
+        error,
+  }) {
+    return more(onResult, genre, pendingId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(String genre, ActionResult onResult, String pendingId)?
+        start,
+    TResult Function(ActionResult onResult, String genre, String pendingId)?
+        more,
+    TResult Function(List<Movie> movies, String pendingId)? successful,
+    TResult Function(Object error, StackTrace stackTrace, String pendingId)?
+        error,
+  }) {
+    return more?.call(onResult, genre, pendingId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String genre, ActionResult onResult, String pendingId)?
+        start,
+    TResult Function(ActionResult onResult, String genre, String pendingId)?
+        more,
+    TResult Function(List<Movie> movies, String pendingId)? successful,
+    TResult Function(Object error, StackTrace stackTrace, String pendingId)?
+        error,
+    required TResult orElse(),
+  }) {
+    if (more != null) {
+      return more(onResult, genre, pendingId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GetMoviesGenreStart value) start,
+    required TResult Function(GetMoviesGenreMore value) more,
+    required TResult Function(GetMoviesGenreSuccessful value) successful,
+    required TResult Function(GetMoviesGenreError value) error,
+  }) {
+    return more(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(GetMoviesGenreStart value)? start,
+    TResult Function(GetMoviesGenreMore value)? more,
+    TResult Function(GetMoviesGenreSuccessful value)? successful,
+    TResult Function(GetMoviesGenreError value)? error,
+  }) {
+    return more?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GetMoviesGenreStart value)? start,
+    TResult Function(GetMoviesGenreMore value)? more,
+    TResult Function(GetMoviesGenreSuccessful value)? successful,
+    TResult Function(GetMoviesGenreError value)? error,
+    required TResult orElse(),
+  }) {
+    if (more != null) {
+      return more(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GetMoviesGenreMore implements GetMoviesGenre, ActionStart {
+  const factory GetMoviesGenreMore(ActionResult onResult, String genre,
+      {String pendingId}) = _$GetMoviesGenreMore;
+
+  ActionResult get onResult;
+  String get genre;
+  @override
+  String get pendingId;
+  @override
+  @JsonKey(ignore: true)
+  $GetMoviesGenreMoreCopyWith<GetMoviesGenreMore> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GetMoviesGenreSuccessfulCopyWith<$Res>
+    implements $GetMoviesGenreCopyWith<$Res> {
+  factory $GetMoviesGenreSuccessfulCopyWith(GetMoviesGenreSuccessful value,
+          $Res Function(GetMoviesGenreSuccessful) then) =
+      _$GetMoviesGenreSuccessfulCopyWithImpl<$Res>;
+  @override
+  $Res call({List<Movie> movies, String pendingId});
+}
+
+/// @nodoc
+class _$GetMoviesGenreSuccessfulCopyWithImpl<$Res>
+    extends _$GetMoviesGenreCopyWithImpl<$Res>
+    implements $GetMoviesGenreSuccessfulCopyWith<$Res> {
+  _$GetMoviesGenreSuccessfulCopyWithImpl(GetMoviesGenreSuccessful _value,
+      $Res Function(GetMoviesGenreSuccessful) _then)
+      : super(_value, (v) => _then(v as GetMoviesGenreSuccessful));
+
+  @override
+  GetMoviesGenreSuccessful get _value =>
+      super._value as GetMoviesGenreSuccessful;
+
+  @override
+  $Res call({
+    Object? movies = freezed,
+    Object? pendingId = freezed,
+  }) {
+    return _then(GetMoviesGenreSuccessful(
+      movies == freezed
+          ? _value.movies
+          : movies // ignore: cast_nullable_to_non_nullable
+              as List<Movie>,
+      pendingId == freezed
+          ? _value.pendingId
+          : pendingId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+@Implements<ActionDone>()
+class _$GetMoviesGenreSuccessful implements GetMoviesGenreSuccessful {
+  const _$GetMoviesGenreSuccessful(this.movies, this.pendingId);
+
+  @override
+  final List<Movie> movies;
+  @override
+  final String pendingId;
+
+  @override
+  String toString() {
+    return 'GetMoviesGenre.successful(movies: $movies, pendingId: $pendingId)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is GetMoviesGenreSuccessful &&
+            const DeepCollectionEquality().equals(other.movies, movies) &&
+            const DeepCollectionEquality().equals(other.pendingId, pendingId));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(movies),
+      const DeepCollectionEquality().hash(pendingId));
+
+  @JsonKey(ignore: true)
+  @override
+  $GetMoviesGenreSuccessfulCopyWith<GetMoviesGenreSuccessful> get copyWith =>
+      _$GetMoviesGenreSuccessfulCopyWithImpl<GetMoviesGenreSuccessful>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            String genre, ActionResult onResult, String pendingId)
+        start,
+    required TResult Function(
+            ActionResult onResult, String genre, String pendingId)
+        more,
+    required TResult Function(List<Movie> movies, String pendingId) successful,
+    required TResult Function(
+            Object error, StackTrace stackTrace, String pendingId)
+        error,
+  }) {
+    return successful(movies, pendingId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(String genre, ActionResult onResult, String pendingId)?
+        start,
+    TResult Function(ActionResult onResult, String genre, String pendingId)?
+        more,
+    TResult Function(List<Movie> movies, String pendingId)? successful,
+    TResult Function(Object error, StackTrace stackTrace, String pendingId)?
+        error,
+  }) {
+    return successful?.call(movies, pendingId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String genre, ActionResult onResult, String pendingId)?
+        start,
+    TResult Function(ActionResult onResult, String genre, String pendingId)?
+        more,
+    TResult Function(List<Movie> movies, String pendingId)? successful,
+    TResult Function(Object error, StackTrace stackTrace, String pendingId)?
+        error,
+    required TResult orElse(),
+  }) {
+    if (successful != null) {
+      return successful(movies, pendingId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GetMoviesGenreStart value) start,
+    required TResult Function(GetMoviesGenreMore value) more,
+    required TResult Function(GetMoviesGenreSuccessful value) successful,
+    required TResult Function(GetMoviesGenreError value) error,
+  }) {
+    return successful(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(GetMoviesGenreStart value)? start,
+    TResult Function(GetMoviesGenreMore value)? more,
+    TResult Function(GetMoviesGenreSuccessful value)? successful,
+    TResult Function(GetMoviesGenreError value)? error,
+  }) {
+    return successful?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GetMoviesGenreStart value)? start,
+    TResult Function(GetMoviesGenreMore value)? more,
+    TResult Function(GetMoviesGenreSuccessful value)? successful,
+    TResult Function(GetMoviesGenreError value)? error,
+    required TResult orElse(),
+  }) {
+    if (successful != null) {
+      return successful(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GetMoviesGenreSuccessful implements GetMoviesGenre, ActionDone {
+  const factory GetMoviesGenreSuccessful(List<Movie> movies, String pendingId) =
+      _$GetMoviesGenreSuccessful;
+
+  List<Movie> get movies;
+  @override
+  String get pendingId;
+  @override
+  @JsonKey(ignore: true)
+  $GetMoviesGenreSuccessfulCopyWith<GetMoviesGenreSuccessful> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GetMoviesGenreErrorCopyWith<$Res>
+    implements $GetMoviesGenreCopyWith<$Res> {
+  factory $GetMoviesGenreErrorCopyWith(
+          GetMoviesGenreError value, $Res Function(GetMoviesGenreError) then) =
+      _$GetMoviesGenreErrorCopyWithImpl<$Res>;
+  @override
+  $Res call({Object error, StackTrace stackTrace, String pendingId});
+}
+
+/// @nodoc
+class _$GetMoviesGenreErrorCopyWithImpl<$Res>
+    extends _$GetMoviesGenreCopyWithImpl<$Res>
+    implements $GetMoviesGenreErrorCopyWith<$Res> {
+  _$GetMoviesGenreErrorCopyWithImpl(
+      GetMoviesGenreError _value, $Res Function(GetMoviesGenreError) _then)
+      : super(_value, (v) => _then(v as GetMoviesGenreError));
+
+  @override
+  GetMoviesGenreError get _value => super._value as GetMoviesGenreError;
+
+  @override
+  $Res call({
+    Object? error = freezed,
+    Object? stackTrace = freezed,
+    Object? pendingId = freezed,
+  }) {
+    return _then(GetMoviesGenreError(
+      error == freezed
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as Object,
+      stackTrace == freezed
+          ? _value.stackTrace
+          : stackTrace // ignore: cast_nullable_to_non_nullable
+              as StackTrace,
+      pendingId == freezed
+          ? _value.pendingId
+          : pendingId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+@Implements<ActionDone>()
+@Implements<ErrorAction>()
+class _$GetMoviesGenreError implements GetMoviesGenreError {
+  const _$GetMoviesGenreError(this.error, this.stackTrace, this.pendingId);
+
+  @override
+  final Object error;
+  @override
+  final StackTrace stackTrace;
+  @override
+  final String pendingId;
+
+  @override
+  String toString() {
+    return 'GetMoviesGenre.error(error: $error, stackTrace: $stackTrace, pendingId: $pendingId)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is GetMoviesGenreError &&
+            const DeepCollectionEquality().equals(other.error, error) &&
+            const DeepCollectionEquality()
+                .equals(other.stackTrace, stackTrace) &&
+            const DeepCollectionEquality().equals(other.pendingId, pendingId));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(error),
+      const DeepCollectionEquality().hash(stackTrace),
+      const DeepCollectionEquality().hash(pendingId));
+
+  @JsonKey(ignore: true)
+  @override
+  $GetMoviesGenreErrorCopyWith<GetMoviesGenreError> get copyWith =>
+      _$GetMoviesGenreErrorCopyWithImpl<GetMoviesGenreError>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            String genre, ActionResult onResult, String pendingId)
+        start,
+    required TResult Function(
+            ActionResult onResult, String genre, String pendingId)
+        more,
+    required TResult Function(List<Movie> movies, String pendingId) successful,
+    required TResult Function(
+            Object error, StackTrace stackTrace, String pendingId)
+        error,
+  }) {
+    return error(this.error, stackTrace, pendingId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(String genre, ActionResult onResult, String pendingId)?
+        start,
+    TResult Function(ActionResult onResult, String genre, String pendingId)?
+        more,
+    TResult Function(List<Movie> movies, String pendingId)? successful,
+    TResult Function(Object error, StackTrace stackTrace, String pendingId)?
+        error,
+  }) {
+    return error?.call(this.error, stackTrace, pendingId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String genre, ActionResult onResult, String pendingId)?
+        start,
+    TResult Function(ActionResult onResult, String genre, String pendingId)?
+        more,
+    TResult Function(List<Movie> movies, String pendingId)? successful,
+    TResult Function(Object error, StackTrace stackTrace, String pendingId)?
+        error,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error(this.error, stackTrace, pendingId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GetMoviesGenreStart value) start,
+    required TResult Function(GetMoviesGenreMore value) more,
+    required TResult Function(GetMoviesGenreSuccessful value) successful,
+    required TResult Function(GetMoviesGenreError value) error,
+  }) {
+    return error(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(GetMoviesGenreStart value)? start,
+    TResult Function(GetMoviesGenreMore value)? more,
+    TResult Function(GetMoviesGenreSuccessful value)? successful,
+    TResult Function(GetMoviesGenreError value)? error,
+  }) {
+    return error?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GetMoviesGenreStart value)? start,
+    TResult Function(GetMoviesGenreMore value)? more,
+    TResult Function(GetMoviesGenreSuccessful value)? successful,
+    TResult Function(GetMoviesGenreError value)? error,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GetMoviesGenreError
+    implements GetMoviesGenre, ActionDone, ErrorAction {
+  const factory GetMoviesGenreError(
+          Object error, StackTrace stackTrace, String pendingId) =
+      _$GetMoviesGenreError;
+
+  Object get error;
+  StackTrace get stackTrace;
+  @override
+  String get pendingId;
+  @override
+  @JsonKey(ignore: true)
+  $GetMoviesGenreErrorCopyWith<GetMoviesGenreError> get copyWith =>
+      throw _privateConstructorUsedError;
+}
