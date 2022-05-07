@@ -48,5 +48,5 @@ AppState _getUserSuccessful(AppState state, GetUserSuccessful action) {
   return state.copyWith(users: <String, AppUser>{
     ...state.users,
     action.user.uid: action.user,
-  });
+  },);
 }

@@ -54,7 +54,7 @@ class AuthEpic {
       return Stream<void>.value(null)
           .asyncMap((_) => _authApi.updateFavorites(store.state.user!.uid, action.id, add: action.add))
           .mapTo(const UpdateFavorites.successful())
-          .onErrorReturnWith((error, stackTrace) {
+          .onErrorReturnWith((Object error, StackTrace stackTrace) {
         return UpdateFavorites.error(error, stackTrace, action.id, add: action.add);
       });
     });
@@ -65,7 +65,7 @@ class AuthEpic {
       return Stream<void>.value(null)
           .asyncMap((_) => _authApi.logout())
           .mapTo(const Logout.successful())
-          .onErrorReturnWith((error, stackTrace) {
+          .onErrorReturnWith((Object error, StackTrace stackTrace) {
         return Logout.error(error, stackTrace);
       });
     });

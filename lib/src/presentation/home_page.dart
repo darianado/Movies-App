@@ -17,7 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final ScrollController _controller = ScrollController();
-  String genre = "";
+  String genre = '';
 
   @override
   void initState() {
@@ -47,10 +47,10 @@ class _HomePageState extends State<HomePage> {
 
   void _onResult(AppAction action) {
     if (action is GetMoviesSuccessful) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("page loaded")));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('page loaded')));
     } else if (action is GetMoviesError) {
       final Object error = action.error;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error: $error")));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $error')));
     }
   }
 
@@ -68,45 +68,46 @@ class _HomePageState extends State<HomePage> {
           appBar: AppBar(
             backgroundColor: const Color(0xFFD4D1E6),
             foregroundColor: const Color(0xFF231123),
-            actions: [
+            actions: <Widget>[
               PopupMenuButton<String>(
-                onSelected: (item) {
+                onSelected: (String item) {
                   state.movies.clear();
-                  genre = item.toString();
+                  genre = item;
                   StoreProvider.of<AppState>(context, listen: false).dispatch(GetMovies.start(genre, _onResult));
                 },
-                itemBuilder: (context) => [
+                // ignore: always_specify_types
+                itemBuilder: (BuildContext context) => [
                   const PopupMenuItem<String>(
-                    value: "",
-                    child: Text("All"),
+                    value: '',
+                    child: Text('All'),
                   ),
                   const PopupMenuItem<String>(
-                    value: "Action",
-                    child: Text("Action"),
+                    value: 'Action',
+                    child: Text('Action'),
                   ),
                   const PopupMenuItem<String>(
-                    value: "Adventure",
-                    child: Text("Adventure"),
+                    value: 'Adventure',
+                    child: Text('Adventure'),
                   ),
                   const PopupMenuItem<String>(
-                    value: "Animation",
-                    child: Text("Animation"),
+                    value: 'Animation',
+                    child: Text('Animation'),
                   ),
                   const PopupMenuItem<String>(
-                    value: "Comedy",
-                    child: Text("Comedy"),
+                    value: 'Comedy',
+                    child: Text('Comedy'),
                   ),
                   const PopupMenuItem<String>(
-                    value: "Drama",
-                    child: Text("Drama"),
+                    value: 'Drama',
+                    child: Text('Drama'),
                   ),
                   const PopupMenuItem<String>(
-                    value: "Romance",
-                    child: Text("Romance"),
+                    value: 'Romance',
+                    child: Text('Romance'),
                   ),
                   const PopupMenuItem<String>(
-                    value: "Thriller",
-                    child: Text("Thriller"),
+                    value: 'Thriller',
+                    child: Text('Thriller'),
                   ),
                 ],
               ),
@@ -123,8 +124,8 @@ class _HomePageState extends State<HomePage> {
             builder: (BuildContext context, Set<String> pending) {
               return MoviesContainer(
                 builder: (BuildContext context, List<Movie> movies) {
-                  final isLoadingStart = state.pending.contains(GetMovies.pendingKey);
-                  final isLoadingMore = state.pending.contains(GetMovies.pendingKey);
+                  final bool isLoadingStart = state.pending.contains(GetMovies.pendingKey);
+                  final bool isLoadingMore = state.pending.contains(GetMovies.pendingKey);
                   final bool isLoading = isLoadingStart || isLoadingMore;
                   if (isLoading && movies.isEmpty) {
                     return const Center(child: CircularProgressIndicator());
@@ -155,7 +156,7 @@ class _HomePageState extends State<HomePage> {
                                   SizedBox(
                                     height: 320,
                                     child: Padding(
-                                      padding: const EdgeInsets.only(top: 33.0),
+                                      padding: const EdgeInsets.only(top: 33),
                                       child: Image.network(movie.poster),
                                     ),
                                   ),
@@ -166,8 +167,8 @@ class _HomePageState extends State<HomePage> {
                                         StoreProvider.of<AppState>(context)
                                             .dispatch(UpdateFavorites(movie.id, add: !isFavorite));
                                       },
-                                      icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border))
-                                ]),
+                                      icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),)
+                                ],),
                                 Center(
                                   child: Text(
                                     movie.title,

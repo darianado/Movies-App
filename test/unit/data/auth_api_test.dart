@@ -10,6 +10,7 @@ import 'package:movies/src/models/index.dart';
 
 class MockFirebaseAuth with Mock implements FirebaseAuth {}
 
+// ignore: avoid_implementing_value_types
 class MockFirebaseFirestore with Mock implements FirebaseFirestore {}
 
 // ignore: subtype_of_sealed_class
@@ -40,18 +41,18 @@ Future<void> main() async {
     snapshot = MockDocumentSnapshot();
   });
 
-  test("logout", () async {
+  test('logout', () async {
     when(auth.signOut).thenAnswer((_) async {});
     await api.logout();
     final VerificationResult result = verify(auth.signOut);
     expect(result.callCount, 1);
   });
 
-  test("getUser", () async {
+  test('getUser', () async {
     when(() => firestore.doc(captureAny())).thenReturn(ref);
     when(() => ref.get()).thenAnswer((_) async => snapshot);
     when(snapshot.data).thenReturn(userData);
-    const String uid = "uid";
+    const String uid = 'uid';
     final AppUser expected = await api.getUser(uid);
     expect(expected, AppUser.fromJson(userData));
     final VerificationResult result = verify(() => firestore.doc(captureAny()));

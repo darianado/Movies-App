@@ -25,18 +25,16 @@ class _LoginPageState extends State<LoginPage> {
     StoreProvider.of<AppState>(context).dispatch(Login.start(
         email: _email.text,
         password: _password.text,
-        onResult: (AppAction action) {
-          _onResult(action);
-        }));
+        onResult: _onResult,),);
   }
 
   void _onResult(AppAction action) {
     if (action is ErrorAction) {
       final Object error = action.error;
       if (error is FirebaseAuthException) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error.message ?? "")));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error.message ?? '')));
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("$error")));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$error')));
       }
     }
   }
@@ -73,18 +71,18 @@ class _LoginPageState extends State<LoginPage> {
                     textInputAction: TextInputAction.next,
                     autofocus: true,
                     decoration: const InputDecoration(
-                      hintText: "Email",
+                      hintText: 'Email',
                       border: InputBorder.none,
                       focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
+                        
                       ),
                       icon: Icon(Icons.email, color: Color(0xFF231123)),
                     ),
                     validator: (String? value) {
                       if (value == null || value.isEmpty) {
-                        return "Enter something";
+                        return 'Enter something';
                       } else if (!value.contains('@')) {
-                        return "Enter something";
+                        return 'Enter something';
                       }
                       return null;
                     },
@@ -98,10 +96,9 @@ class _LoginPageState extends State<LoginPage> {
                     textInputAction: TextInputAction.done,
                     keyboardType: TextInputType.visiblePassword,
                     decoration: const InputDecoration(
-                      hintText: "Password",
+                      hintText: 'Password',
                       border: InputBorder.none,
                       focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
                       ),
                       icon: Icon(
                         Icons.lock,
@@ -111,9 +108,9 @@ class _LoginPageState extends State<LoginPage> {
                     obscureText: true,
                     validator: (String? value) {
                       if (value == null || value.isEmpty) {
-                        return "Enter something";
+                        return 'Enter something';
                       } else if (value.length < 6) {
-                        return "Too short";
+                        return 'Too short';
                       }
                       return null;
                     },
@@ -136,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     onPressed: () => _onNext(context),
                     child: const Text(
-                      "Login",
+                      'Login',
                       style: TextStyle(
                         fontSize: 18,
                       ),
@@ -152,9 +149,10 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
+                    // ignore: always_specify_types
                     onPressed: () => {Navigator.pushNamed(context, '/signUp')},
                     child: const Text(
-                      "SignUp",
+                      'SignUp',
                       style: TextStyle(
                         fontSize: 18,
                       ),
@@ -163,8 +161,8 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
             ),
-          ));
-        }),
+          ),);
+        },),
       ),
     );
   }

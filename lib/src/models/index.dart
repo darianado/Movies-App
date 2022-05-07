@@ -1,8 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part "index.g.dart";
-part "index.freezed.dart";
-part "app_state.dart";
-part "app_user.dart";
-part "movie.dart";
-part "comment.dart";
+part 'index.g.dart';
+part 'index.freezed.dart';
+part 'app_state.dart';
+part 'app_user.dart';
+part 'movie.dart';
+part 'comment.dart';

@@ -59,10 +59,13 @@ class MovieEpic {
         page = store.state.page;
       }
       return Stream<void>.value(null)
-          .asyncMap((_) => _movieApi.getMovies(page, action.genre))
+          .asyncMap((_) {
+            // ignore: avoid_dynamic_calls
+            return _movieApi.getMovies(page, action.genre.toString());
+          })
           .map<GetMovies>((List<Movie> movies) {
         return GetMovies.successful(movies, pendingId);
-      }).onErrorReturnWith((Object error, stackTrace) {
+      }).onErrorReturnWith((Object error, StackTrace stackTrace) {
         return GetMovies.error(error, stackTrace, pendingId);
       }).doOnData(onResult);
     });
@@ -74,24 +77,24 @@ class MovieEpic {
         return <AppAction>[
           ListenForComments.event(comments),
           ...comments
-              .where((comment) => store.state.users[comment.uid] == null)
-              .map((comment) => GetUser(comment.uid))
+              .where((Comment comment) => store.state.users[comment.uid] == null)
+              .map((Comment comment) => GetUser(comment.uid))
               .toSet()
         ];
       }).takeUntil<dynamic>(actions.where((dynamic event) {
         return event is ListenForCommentsDone && event.movieId == action.movieId;
-      })).onErrorReturnWith($ListenForComments.error);
+      }),).onErrorReturnWith($ListenForComments.error);
     });
   }
 
   Stream<AppAction> _createCommentStart(Stream<CreateCommentStart> actions, EpicStore<AppState> store) {
-    return actions.flatMap((action) {
+    return actions.flatMap((CreateCommentStart action) {
       return Stream<void>.value(null)
           .asyncMap((_) => _movieApi.createComment(
                 uid: store.state.user!.uid,
                 movieId: store.state.selectedMovieId!,
                 text: action.text,
-              ))
+              ),)
           .mapTo(const CreateComment.successful())
           .onErrorReturnWith($CreateComment.error);
     });

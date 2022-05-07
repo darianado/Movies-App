@@ -15,6 +15,6 @@ class Home extends StatelessWidget {
       } else {
         return const LoginPage();
       }
-    });
+    },);
   }
 }

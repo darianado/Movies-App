@@ -1,13 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:http/http.dart';
 import 'package:movies/src/actions/index.dart';
-import 'package:movies/src/models/index.dart';
 import 'package:movies/src/data/auth_api.dart';
 import 'package:movies/src/data/movie_api.dart';
 import 'package:movies/src/epics/app_epic.dart';
+import 'package:movies/src/models/index.dart';
 import 'package:movies/src/presentation/comments_page.dart';
 import 'package:movies/src/presentation/home.dart';
 import 'package:movies/src/presentation/home_page.dart';
@@ -16,7 +17,6 @@ import 'package:movies/src/presentation/sign_up_page.dart';
 import 'package:movies/src/reducer/reducer.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_epics/redux_epics.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

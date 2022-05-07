@@ -1,4 +1,4 @@
-part of "index.dart";
+part of 'index.dart';
 
 @freezed
 class Logout with _$Logout implements AppAction {

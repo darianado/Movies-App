@@ -56,7 +56,7 @@ class AuthApi implements AuthApiBase {
   @override
   Future<void> updateFavorites(String uid, int id, {required bool add}) async {
     await _firestore.runTransaction<void>((Transaction transaction) async {
-      final DocumentSnapshot<Map<String, dynamic>> snapshot = await transaction.get(_firestore.doc("users/$uid"));
+      final DocumentSnapshot<Map<String, dynamic>> snapshot = await transaction.get(_firestore.doc('users/$uid'));
       AppUser user = AppUser.fromJson(snapshot.data()!);
 
       if (add) {
@@ -76,7 +76,7 @@ class AuthApi implements AuthApiBase {
 
   @override
   Future<AppUser> getUser(String uid) async {
-    final DocumentSnapshot<Map<String, dynamic>> snapshot = await _firestore.doc("users/$uid").get();
+    final DocumentSnapshot<Map<String, dynamic>> snapshot = await _firestore.doc('users/$uid').get();
     return AppUser.fromJson(snapshot.data()!);
   }
 }

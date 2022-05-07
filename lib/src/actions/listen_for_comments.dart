@@ -1,4 +1,4 @@
-part of "index.dart";
+part of 'index.dart';
 
 @freezed
 class ListenForComments with _$ListenForComments implements AppAction {

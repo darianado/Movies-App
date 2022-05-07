@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:movies/src/models/index.dart';
 import 'package:movies/src/actions/index.dart';
+import 'package:movies/src/models/index.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -35,9 +35,9 @@ class _SignUpPageState extends State<SignUpPage> {
     if (action is ErrorAction) {
       final Object error = action.error;
       if (error is FirebaseAuthException) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error.message ?? "")));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error.message ?? '')));
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("$error")));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$error')));
       }
     }
   }
@@ -69,19 +69,18 @@ class _SignUpPageState extends State<SignUpPage> {
                         keyboardType: TextInputType.emailAddress,
                         textInputAction: TextInputAction.next,
                         decoration: const InputDecoration(
-                          hintText: "Email",
+                          hintText: 'Email',
                           border: InputBorder.none,
                           focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
                           ),
                           icon: Icon(Icons.email, color: Color(0xFF231123)),
                         ),
                         autofocus: true,
                         validator: (String? value) {
                           if (value == null || value.isEmpty) {
-                            return "Enter something";
+                            return 'Enter something';
                           } else if (!value.contains('@')) {
-                            return "Not a valid email";
+                            return 'Not a valid email';
                           }
                           return null;
                         },
@@ -94,10 +93,9 @@ class _SignUpPageState extends State<SignUpPage> {
                         focusNode: _passwordNode,
                         textInputAction: TextInputAction.next,
                         decoration: const InputDecoration(
-                          hintText: "Password",
+                          hintText: 'Password',
                           border: InputBorder.none,
                           focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
                           ),
                           icon: Icon(Icons.lock, color: Color(0xFF231123)),
                         ),
@@ -105,9 +103,9 @@ class _SignUpPageState extends State<SignUpPage> {
                         obscureText: true,
                         validator: (String? value) {
                           if (value == null || value.isEmpty) {
-                            return "Enter something";
+                            return 'Enter something';
                           } else if (value.length < 6) {
-                            return "short";
+                            return 'Too short';
                           }
                           return null;
                         },
@@ -121,16 +119,15 @@ class _SignUpPageState extends State<SignUpPage> {
                         textInputAction: TextInputAction.done,
                         keyboardType: TextInputType.name,
                         decoration: const InputDecoration(
-                          hintText: "Username",
+                          hintText: 'Username',
                           border: InputBorder.none,
                           focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
                           ),
                           icon: Icon(Icons.person, color: Color(0xFF231123)),
                         ),
                         validator: (String? value) {
                           if (value == null || value.isEmpty) {
-                            return "Enter something";
+                            return 'Enter something';
                           }
                           return null;
                         },
@@ -153,11 +150,11 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                           onPressed: () => _onNext(context),
                           child: const Text(
-                            "SignUp",
+                            'SignUp',
                             style: TextStyle(
                               fontSize: 18,
                             ),
-                          )),
+                          ),),
                       ElevatedButton(
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(const Color(0xFF82204A)),
@@ -168,13 +165,14 @@ class _SignUpPageState extends State<SignUpPage> {
                               ),
                             ),
                           ),
+                          // ignore: always_specify_types
                           onPressed: () => {Navigator.pop(context)},
                           child: const Text(
-                            "Login",
+                            'Login',
                             style: TextStyle(
                               fontSize: 18,
                             ),
-                          ))
+                          ),)
                     ],
                   ),
                 ),

@@ -9,7 +9,7 @@ class MovieApi {
   final Client _client;
   final FirebaseFirestore _firestore;
 
-  Future<List<Movie>> getMovies(int page, String? genre) async {
+  Future<List<Movie>> getMovies(int page, String genre) async {
     final Response response = await _client.get(
       Uri(
         scheme: 'https',
@@ -18,7 +18,7 @@ class MovieApi {
         queryParameters: <String, dynamic>{
           'page': '$page',
           'quality': '3D',
-          'genre': genre ?? "",
+          'genre': genre ,
         },
       ),
     );
@@ -36,16 +36,16 @@ class MovieApi {
 
   Stream<List<Comment>> listenForComments(int movieId) {
     // final QuerySnapshot<Map<String, dynamic>> snapshot =
-    return _firestore.collection("comments").where("movieId", isEqualTo: movieId).snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) => Comment.fromJson(doc.data())).toList();
+    return _firestore.collection('comments').where('movieId', isEqualTo: movieId).snapshots().map((QuerySnapshot<Map<String, dynamic>> snapshot) {
+      return snapshot.docs.map((QueryDocumentSnapshot<Map<String, dynamic>> doc) => Comment.fromJson(doc.data())).toList();
     });
   }
 
   Future<void> createComment({required String uid, required int movieId, required String text}) async {
-    final DocumentReference<Map<String, dynamic>> ref = _firestore.collection("comments").doc();
+    final DocumentReference<Map<String, dynamic>> ref = _firestore.collection('comments').doc();
 
     final Comment comment = Comment(id: ref.id, uid: uid, movieId: movieId, text: text, createdAt: DateTime.now());
 
-    ref.set(comment.toJson());
+    await ref.set(comment.toJson());
   }
 }

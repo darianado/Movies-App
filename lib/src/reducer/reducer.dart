@@ -6,7 +6,7 @@ import 'package:redux/redux.dart';
 
 AppState reducer(AppState state, dynamic action) {
   if (action is! AppAction) {
-    throw ArgumentError("all actions shout implement appaction");
+    throw ArgumentError('all actions should implement AppAction');
   }
 
   final AppState newState = _reducer(state, action);
